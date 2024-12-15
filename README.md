@@ -10,4 +10,20 @@ Pour chaque gène $g$, nous étudions sa significativité par la valeur de la pv
 
 $$Y=X_g \psi+C \beta+\varepsilon \cdot$$
 
-Cette nouvelle problématique devient relativement compte tenu du faite que c'est une régression mais des difficultés comme la taille des échantillons métagénomique, de la sparsité des données métagénomiques limites l'application des méthodes de régression classique. Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation \eqre{equation1}.
+Cette nouvelle problématique devient relativement compte tenu du faite que c'est une régression mais des difficultés comme la taille des échantillons métagénomique, de la sparsité des données métagénomiques limites l'application des méthodes de régression classique. 
+
+# Méthode proposée
+Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation \eqre{equation1}.
+
+
+## Écriture du modèle 
+
+
+## études de simulation
+
+
+# Résultats
+
+
+
+
