@@ -16,11 +16,12 @@ Cette nouvelle problématique devient relativement compte tenu du faite que c'es
 Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation \eqre{equation1}. Nous avons calculé les metrics comme le lambda et tracé les graphiques comme le qqplot
 
 
-## Écriture du modèle 
+# Écriture du modèle 
 
 
-## Études de simulation
+# Études de simulation
 Dans cette étude de simulation, nous simulons deux types de données $X$ : les données à partir des données observées et des données non observés de manière aléatoire.
+
 1. Simulation à partir des données
 
 2. Simulation de façon aléatoire
