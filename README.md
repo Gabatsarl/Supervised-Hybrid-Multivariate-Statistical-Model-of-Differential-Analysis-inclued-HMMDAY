@@ -19,7 +19,7 @@ Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l
 ## Écriture du modèle 
 
 
-## études de simulation
+## éÉtudes de simulation
 
 
 # Résultats
