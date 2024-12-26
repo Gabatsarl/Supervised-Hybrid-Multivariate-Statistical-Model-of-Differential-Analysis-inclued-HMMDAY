@@ -29,6 +29,8 @@ Dans cette étude de simulation, nous simulons deux types de données $X$ : les 
 
 # Résultats
 
+Le modèle comparative  a permis de détecter le modèle qui s'ajuste le mieux et d'obtenir les résultats souhaités.
+Cependant, une amélioration et une extension de ce modèle en multidimension est souhaitable.
 
 
 
