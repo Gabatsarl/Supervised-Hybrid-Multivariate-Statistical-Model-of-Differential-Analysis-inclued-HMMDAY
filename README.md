@@ -6,7 +6,9 @@ $$
 X_g=C \beta+\varepsilon \cdot
 $$
 
-Pour chaque gène $g$, nous étudions sa significativité par la valeur de la pvaleur associée au paramètre $\beta$. Cependant, lorsque nous voulons faire cette analyse différence en incluant une variable d'intérêt $Y$, la problématique devient différent et implique donc 
+Pour chaque gène $g$, nous étudions sa significativité par la valeur de la pvaleur associée au paramètre $\beta$. 
+
+Cependant, lorsque nous voulons faire cette analyse différence en incluant une variable d'intérêt $Y$, la problématique devient différent et implique donc 
 
 $$Y=X_g \psi+C \beta+\varepsilon \cdot$$
 
