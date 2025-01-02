@@ -17,7 +17,7 @@ Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l
 
 
 # Écriture du modèle 
-Le modèle de l'équation $Y=X_g \psi+C \beta+\varepsilon$ permet d'analyser l'éfficacité de chaque gène $g$ par rapport 
+Le modèle de l'équation $Y=X_g \psi+C \beta+\varepsilon$ permet d'analyser l'éfficacité de chaque gène $g$ par rapport à la condition $C$ sur la variable $Y$. 
 
 # Études de simulation
 Dans cette étude de simulation, nous simulons deux types de données $X$ : les données à partir des données observées et des données non observés de manière aléatoire.
