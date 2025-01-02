@@ -24,8 +24,7 @@ Dans cette étude de simulation, nous simulons deux types de données $X$ : les 
 
 1. Simulation à partir des données existantes. Pour cette simulation, nous utilisons les paramètres des différentes distributions à partir des estimations sur les données. 
 
-2. Simulation de façon aléatoire
-   Cette simulation prend en entrée des paramètres aléatoirement choisis par l'utilisateur pour générer les données.
+2. Simulation de façon aléatoire. Cette simulation prend en "entrées" des paramètres aléatoirement choisis par l'utilisateur pour générer les données.
 
 # Résultats
 
