@@ -28,7 +28,7 @@ Dans cette étude de simulation, nous avons besoin de la matrice de données $X$
 
 1. Simulation de $X$ à partir des données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres estimées à partir des données observées. Cette simulation permet d'avoir une replication des variabilités biologiques, technique et compositionnele des données métagénomique. Ceci permet d'étudier l'applicabilité du modèle sur des données réelles.
 
-2. Simulation de $X$ sans les données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres aléatoirement choisis par l'utilisateur pour générer la matrice de données $X$.
+2. Simulation de $X$ sans les données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres aléatoirement choisis par l'utilisateur pour générer la matrice de données $X$. Pour étudier, l'applicabilité du modèle HMMDAY sur des données d'ordre général 
 
 # Résultats
 
