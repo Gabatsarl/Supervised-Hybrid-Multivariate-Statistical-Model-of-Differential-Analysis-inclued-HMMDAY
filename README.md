@@ -1,6 +1,6 @@
 # Introduction
 
-L'analyse différentelle (DA) permet d'étudier les gènes différentielles en fonction des conditions d'expérience. Si nous notons $X_g$ l'abondance des gènes et C les conditions métagénomiques, elle s'exprime par
+L'analyse différentelle (DA) permet d'étudier les gènes différentielles en fonction des conditions d'expérience. Si nous notons $X_g$ l'abondance des gènes et C les conditions métagénomiques, le DA s'exprime par
 
 $$
 X_g=C \beta+\varepsilon \cdot
