@@ -32,8 +32,7 @@ Dans cette étude de simulation, nous avons besoin de la matrice de données $X$
 
 # Résultats
 
-Le modèle comparative  a permis de détecter le modèle qui s'ajuste le mieux et d'obtenir les résultats souhaités.
-Cependant, une amélioration et une extension de ce modèle en multidimension est souhaitable.
+Le modèle comparative  a permis de détecter le modèle qui s'ajuste le mieux et d'obtenir les résultats souhaités. Cependant, une amélioration et une extension de ce modèle en multidimension est souhaitable.
 
 
 
