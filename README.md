@@ -19,7 +19,7 @@ Où :
 - $X_g$ est l'abondance du gène $g$,
 - $\psi$ et $\beta$ sont des coefficients,
 - $C$ est une condition binaire (par exemple, un facteur de classification),
-- $\varepsilon$ est l'erreur du modèle, supposée suivre une distribution normale ou de Student selon le cas.
+- $\varepsilon$ est l'erreur du modèle, supposée suivre une distribution **normale** ou de **Student** selon le cas.
 
 Cette équation est relativement simple compte tenu du faite que c'est une régression linéaire. Malheureusement des difficultés comme la taille des échantillons métagénomique, de la sparsité des données métagénomiques, etc., limitent l'application des méthodes de régression classique. 
 
