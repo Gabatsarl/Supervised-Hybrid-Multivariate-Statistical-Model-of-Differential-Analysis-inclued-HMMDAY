@@ -12,13 +12,14 @@ Pour chaque gène $g$, nous étudions sa significativité par la pvaleur associ�
 
 Cependant, lorsque nous voulons faire cette analyse différentielle en incluant une variable d'intérêt $Y$, la problématique devient différente et implique donc l'utilisation de l'équation :
 
-$$Y=X_g \psi+C \beta+\varepsilon \cdot$$
+$$Y=X_g \psi+C \beta+\varepsilon,$$
+
 Où :
 - $Y$ représente la variable dépendante (ou la matrice de données métagénomiques observées),
 - $X_g$ est la matrice de données génétiques,
 - $\psi$ et $\beta$ sont des coefficients,
 - $C$ est une condition binaire (par exemple, un facteur de classification),
-- \( \varepsilon \) est l'erreur du modèle, supposée suivre une distribution normale ou de Student selon le cas.
+- $\varepsilon$ est l'erreur du modèle, supposée suivre une distribution normale ou de Student selon le cas.
 
 
 Cette équation est relativement simple compte tenu du faite que c'est une régression linéaire. Malheureusement des difficultés comme la taille des échantillons métagénomique, de la sparsité des données métagénomiques, etc limitent l'application des méthodes de régression classique. 
