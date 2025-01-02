@@ -13,11 +13,11 @@ $$Y=X_g \psi+C \beta+\varepsilon \cdot$$
 Cette nouvelle problématique devient relativement compte tenu du faite que c'est une régression mais des difficultés comme la taille des échantillons métagénomique, de la sparsité des données métagénomiques limites l'application des méthodes de régression classique. 
 
 # Méthode proposée
-Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+C \beta+\varepsilon$. Nous avons calculé les metrics comme le lambda et tracé les graphiques de qqplot pour qualifier la qualité de l'ajustement avant de conclure.
+Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+C \beta+\varepsilon$. Nous avons calculé les metrics comme le $\lam et tracé les graphiques de qqplot pour qualifier la qualité de l'ajustement avant de conclure.
 
 
 # Écriture du modèle 
-Le modèle de l'équation $Y=X_g \psi+C \beta+\varepsilon$ permet d'analyser l'éfficacité de chaque gène $g$ par rapport à la condition $C$ sur la variable $Y$. 
+Le modèle de l'équation proposée est $Y=X_g \psi+C \beta+\varepsilon$ permet d'analyser l'éfficacité de chaque gène $g$ par rapport à la condition $C$ sur la variable $Y$. 
 
 # Études de simulation
 Dans cette étude de simulation, nous simulons deux types de données $X$ : les matrice $X$ est générée soit à partir des données observées $X_{obs}$ ou soit de manière aléatoire.
