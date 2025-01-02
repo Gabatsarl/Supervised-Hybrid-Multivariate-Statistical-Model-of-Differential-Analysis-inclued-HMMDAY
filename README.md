@@ -40,7 +40,7 @@ Dans le cadre de cette étude de simulation, l'objectif principal est de génér
 
 En parallèle, nous faisons l'hypothèse que les erreurs suivent une distribution normale dans un cas et une distribution de Student dans un autre. Enfin, nous supposons que la condition $C$ est binaire.
 
-## Objectifs Globaux
+## Objectifs globaux
 
 L'objectif de cette étude de simulation est de :
 - Tester l'applicabilité du modèle **HMMDAY** dans des contextes réels et généralisés.
@@ -48,7 +48,7 @@ L'objectif de cette étude de simulation est de :
   
 Nous espérons que les résultats obtenus grâce à cette approche de simulation aideront à affiner et à adapter le modèle HMMDAY aux défis complexes des données métagénomiques.
 
-## Stratégies de Simulation
+## Stratégies de simulation
 
 ### 1. Simulation de $X$ à partir des données observées $X_{\text{obs}}$
 
@@ -60,7 +60,7 @@ Cette stratégie utilise les données observées $X_{\text{obs}}$ comme base pou
 
 ### 2. Simulation de $X$ sans données existantes $X_{\text{obs}}$
 
-Dans cette approche, la matrice de données $X$ est générée à partir de **paramètres aléatoires**, choisis par l'utilisateur. Cette stratégie est utilisée pour simuler des ensembles de données d’ordre général, sans lien direct avec des données observées. Cela permet de tester l’applicabilité du modèle HMMDAY sur des données **synthétiques**, et ainsi d’étudier sa robustesse et sa capacité d’adaptation à des situations plus générales ou inconnues.
+Dans cette approche, la matrice de données $X$ est générée à partir de **paramètres aléatoires**, choisis par l'utilisateur. Cette stratégie est utilisée pour simuler des ensembles de données d’ordre général, sans lien direct avec des données observées. Cela permet de tester l’applicabilité du modèle ***HMMDAY*** sur des données **synthétiques**, et ainsi d’étudier sa robustesse et sa capacité d’adaptation à des situations plus générales ou inconnues.
 
 **Objectifs de cette simulation :**
 - Tester le modèle HMMDAY sur des données générées aléatoirement.
