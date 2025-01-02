@@ -16,7 +16,7 @@ $$Y=X_g \psi+C \beta+\varepsilon,$$
 
 Où :
 - $Y$ représente la variable dépendante (ou la matrice de données métagénomiques observées),
-- $X_g$ est la matrice de données génétiques,
+- $X_g$ est l'abondance du gène $g$,
 - $\psi$ et $\beta$ sont des coefficients,
 - $C$ est une condition binaire (par exemple, un facteur de classification),
 - $\varepsilon$ est l'erreur du modèle, supposée suivre une distribution normale ou de Student selon le cas.
