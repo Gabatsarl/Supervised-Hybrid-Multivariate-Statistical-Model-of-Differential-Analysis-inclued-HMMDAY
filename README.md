@@ -24,9 +24,9 @@ Le modèle de l'équation proposée est $Y=X_g \psi+C \beta+\varepsilon$ permet 
 # Études de simulation
 Dans cette étude de simulation, nous avons besoin de la matrice de données $X$ et les erreurs $\varepsilon$. Pour ce fait, nous simulons la matrice de données $X$ par deux stratégies : les matrice $X$ est générée soit à partir des données observées $X_{obs}$ ou soit de manière aléatoire. Nous supposons que les erreurs suivent une distribution normale d'une part et une distribution de Student d'autre part.
 
-1. Simulation à partir des données existantes. Cette simulation prend en "entrées" des paramètres estimées à partir des données observ.es . 
+1. Simulation de $X$ à partir des données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres estimées à partir des données observées. 
 
-2. Simulation sans les données. Cette simulation prend en "entrées" des paramètres aléatoirement choisis par l'utilisateur pour générer la matrice de données $X$.
+2. Simulation de $X$ sans les données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres aléatoirement choisis par l'utilisateur pour générer la matrice de données $X$.
 
 # Résultats
 
