@@ -70,8 +70,8 @@ Dans cette approche, la matrice de données $X$ est générée à partir de **pa
 
 ## Hypothèses
 
-1. Les erreurs $\epsilon$ suivent une distribution normale dans le premier cas.
-2. Les erreurs $ \epsilon $ suivent une distribution de **Student** dans le deuxième cas.
+1. Les erreurs $\epsilon$ suivent une distribution **normale** dans le premier cas.
+2. Les erreurs $\epsilon$ suivent une distribution de **Student** dans le deuxième cas.
 3. La condition $C$ est supposée être **binaire**.
 
 Ces hypothèses sont importantes pour la validation des résultats des simulations et permettent d’étudier le comportement du modèle HMMDAY dans différents environnements statistiques.
