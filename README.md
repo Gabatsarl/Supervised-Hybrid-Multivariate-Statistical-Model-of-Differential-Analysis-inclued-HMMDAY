@@ -17,7 +17,7 @@ $$Y=X_g \psi+C \beta+\varepsilon \cdot$$
 Cette équation est relativement simple compte tenu du faite que c'est une régression linéaire. Malheureusement des difficultés comme la taille des échantillons métagénomique, de la sparsité des données métagénomiques, etc limitent l'application des méthodes de régression classique. 
 
 # Méthode proposée
-Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+ C \beta+\varepsilon$. Nous avons calculé les metrics comme le $\lambda$ et tracé les graphiques de QQplot pour qualifier la qualité de l'ajustement avant de conclure. Cet ajustement de modèle à partir de DA incluant $Y$, nous la nommons le modèle HMMDAY.
+Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+ C \beta+\varepsilon$. Nous avons calculé les metrics comme le $\lambda$ et tracé les graphiques de QQplot pour qualifier la qualité de l'ajustement avant de conclure. Cet ajustement de modèle à partir de DA incluant $Y$, nous la nommons le modèle #HMMDAY.
 
 
 # Écriture du modèle 
