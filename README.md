@@ -29,7 +29,7 @@ Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l
 # Écriture du modèle
 Le modèle de l'équation proposée est $Y=X_g \psi+C \beta+\varepsilon$ permet d'analyser l'éfficacité de chaque gène $g$ par rapport à la condition $C$ sur la variable $Y$. 
 
-# Études de simulation du modèle HMMDAY
+# Études de simulation du modèle ***HMMDAY***
 
 ## Contexte
 
@@ -46,7 +46,7 @@ L'objectif de cette étude de simulation est de :
 - Tester l'applicabilité du modèle **HMMDAY** dans des contextes réels et généralisés.
 - Analyser comment différentes distributions d'erreurs et types de données affectent les performances du modèle.
   
-Nous espérons que les résultats obtenus grâce à cette approche de simulation aideront à affiner et à adapter le modèle HMMDAY aux défis complexes des données métagénomiques.
+Nous espérons que les résultats obtenus grâce à cette approche de simulation aideront à affiner et à adapter le modèle ***HMMDAY*** aux défis complexes des données métagénomiques.
 
 ## Stratégies de simulation
 
@@ -56,14 +56,14 @@ Cette stratégie utilise les données observées $X_{\text{obs}}$ comme base pou
 
 **Objectifs de cette simulation :**
 - Reproduire les caractéristiques des données réelles.
-- Étudier comment le modèle HMMDAY réagit face à des données observées, ce qui est essentiel pour valider son efficacité dans des situations réelles.
+- Étudier comment le modèle ***HMMDAY*** réagit face à des données observées, ce qui est essentiel pour valider son efficacité dans des situations réelles.
 
 ### 2. Simulation de $X$ sans données existantes $X_{\text{obs}}$
 
 Dans cette approche, la matrice de données $X$ est générée à partir de **paramètres aléatoires**, choisis par l'utilisateur. Cette stratégie est utilisée pour simuler des ensembles de données d’ordre général, sans lien direct avec des données observées. Cela permet de tester l’applicabilité du modèle ***HMMDAY*** sur des données **synthétiques**, et ainsi d’étudier sa robustesse et sa capacité d’adaptation à des situations plus générales ou inconnues.
 
 **Objectifs de cette simulation :**
-- Tester le modèle HMMDAY sur des données générées aléatoirement.
+- Tester le modèle ***HMMDAY*** sur des données générées aléatoirement.
 - Évaluer la performance du modèle dans des contextes variés où les données réelles ne sont pas disponibles.
 
 ## Hypothèses
@@ -72,7 +72,7 @@ Dans cette approche, la matrice de données $X$ est générée à partir de **pa
 2. Les erreurs $\epsilon$ suivent une distribution de **Student** dans le deuxième cas.
 3. La condition $C$ est supposée être **binaire**.
 
-Ces hypothèses sont importantes pour la validation des résultats des simulations et permettent d’étudier le comportement du modèle HMMDAY dans différents environnements statistiques.
+Ces hypothèses sont importantes pour la validation des résultats des simulations et permettent d’étudier le comportement du modèle ***HMMDAY*** dans différents environnements statistiques.
 
 --------------------------------------------------------------------------------------------------------------------------------------
 
