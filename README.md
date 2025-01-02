@@ -20,11 +20,11 @@ Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l
 Le modèle de l'équation $Y=X_g \psi+C \beta+\varepsilon$ permet d'analyser l'éfficacité de chaque gène $g$ par rapport à la condition $C$ sur la variable $Y$. 
 
 # Études de simulation
-Dans cette étude de simulation, nous simulons deux types de données $X$ : les données à partir des données observées et des données non observés de manière aléatoire.
+Dans cette étude de simulation, nous simulons deux types de données $X$ : les matrice $X$ est générée soit à partir des données observées $X_{obs}$ ou soit de manière aléatoire.
 
-1. Simulation à partir des données existantes. Pour cette simulation, nous utilisons les paramètres des différentes distributions à partir des estimations sur les données. 
+1. Simulation à partir des données existantes. Cette simulation prend en "entrées" des paramètres estimées à partir des données observ.es . 
 
-2. Simulation de façon aléatoire. Cette simulation prend en "entrées" des paramètres aléatoirement choisis par l'utilisateur pour générer les données.
+2. Simulation sans les données. Cette simulation prend en "entrées" des paramètres aléatoirement choisis par l'utilisateur pour générer la matrice de données $X$.
 
 # Résultats
 
