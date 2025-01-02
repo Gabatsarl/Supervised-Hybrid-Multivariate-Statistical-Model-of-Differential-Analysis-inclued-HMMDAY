@@ -15,7 +15,7 @@ $$Y=X_g \psi+C \beta+\varepsilon \cdot$$
 Cette équation est relativement simple compte tenu du faite que c'est une régression linéaire. Malheureusement des difficultés comme la taille des échantillons métagénomique, de la sparsité des données métagénomiques limites l'application des méthodes de régression classique. 
 
 # Méthode proposée
-Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+C \beta+\varepsilon$. Nous avons calculé les metrics comme le $\lambda$ et tracé les graphiques de qqplot pour qualifier la qualité de l'ajustement avant de conclure. Cet ajustement de modèle à partir de DA, nous la nommons le modèle HMMDAY.
+Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+ C \beta+\varepsilon$. Nous avons calculé les metrics comme le $\,\lambda\,$ et tracé les graphiques de qqplot pour qualifier la qualité de l'ajustement avant de conclure. Cet ajustement de modèle à partir de DA, nous la nommons le modèle HMMDAY.
 
 
 # Écriture du modèle 
@@ -24,7 +24,7 @@ Le modèle de l'équation proposée est $Y=X_g \psi+C \beta+\varepsilon$ permet 
 # Études de simulation
 Dans cette étude de simulation, nous avons besoin de la matrice de données $X$ et les erreurs $\varepsilon$. Pour ce fait, nous simulons la matrice de données $X$ par deux stratégies : les matrice $X$ est générée soit à partir des données observées $X_{obs}$ ou soit de manière aléatoire. Nous supposons que les erreurs suivent une distribution normale d'une part et une distribution de Student d'autre part.
 
-1. Simulation de $X$ à partir des données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres estimées à partir des données observées. 
+1. Simulation de $X$ à partir des données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres estimées à partir des données observées. Cette simulation permet d'avoir une replication des variabilités biologiques, technique et compositionnele des données métagénomique. Ceci permet d'étudier l'applicabilité du modèle sur des données réelles.
 
 2. Simulation de $X$ sans les données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres aléatoirement choisis par l'utilisateur pour générer la matrice de données $X$.
 
