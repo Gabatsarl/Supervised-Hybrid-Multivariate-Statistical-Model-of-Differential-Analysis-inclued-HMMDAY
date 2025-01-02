@@ -55,27 +55,23 @@ Dans cette approche, la matrice de données \( X \) est générée à partir de 
 
 ## Hypothèses
 
-1. Les erreurs \( \epsilon \) suivent une distribution normale dans le premier cas.
-2. Les erreurs \( \epsilon \) suivent une distribution de **Student** dans le deuxième cas.
-3. La condition \( C \) est supposée être **binaire**.
+1. Les erreurs $\epsilon$ suivent une distribution normale dans le premier cas.
+2. Les erreurs $ \epsilon $ suivent une distribution de **Student** dans le deuxième cas.
+3. La condition $C$ est supposée être **binaire**.
 
 Ces hypothèses sont importantes pour la validation des résultats des simulations et permettent d’étudier le comportement du modèle HMMDAY dans différents environnements statistiques.
 
 ## Objectifs Globaux
 
 L'objectif de cette étude de simulation est de :
-- Tester l'applicabilité du modèle HMMDAY dans des contextes réels et généralisés.
+- Tester l'applicabilité du modèle **HMMDAY** dans des contextes réels et généralisés.
 - Analyser comment différentes distributions d'erreurs et types de données affectent les performances du modèle.
   
 Nous espérons que les résultats obtenus grâce à cette approche de simulation aideront à affiner et à adapter le modèle HMMDAY aux défis complexes des données métagénomiques.
 
 --------------------------------------------------------------------------------------------------------------------------------------
 
-Dans cette étude de simulation, nous avons besoin de la matrice de données $X$ et les erreurs $\varepsilon$. Pour ce fait, nous simulons la matrice de données $X$ par deux stratégies : les matrice $X$ est générée soit à partir des données observées $X_{obs}$ ou soit de manière aléatoire. Nous supposons que les erreurs suivent une distribution normale d'une part et une distribution de Student d'autre part. Enfin, nous suppons que la condition $C$ est binaire.
 
-1. Simulation de $X$ à partir des données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres estimées à partir des données observées. Cette simulation permet d'avoir une replication des variabilités biologiques, technique et compositionnele des données métagénomique. Ceci permet d'étudier l'applicabilité du modèle sur des données réelles.
-
-2. Simulation de $X$ sans les données existantes $X_{obs}$. Cette simulation prend en "entrées" des paramètres aléatoirement choisis par l'utilisateur pour générer la matrice de données $X$. Pour étudier, l'applicabilité du modèle HMMDAY sur des données d'ordre général 
 
 # Résultats
 
