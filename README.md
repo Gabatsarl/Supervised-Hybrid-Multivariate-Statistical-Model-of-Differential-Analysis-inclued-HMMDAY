@@ -13,7 +13,7 @@ $$Y=X_g \psi+C \beta+\varepsilon \cdot$$
 Cette nouvelle problématique devient relativement compte tenu du faite que c'est une régression mais des difficultés comme la taille des échantillons métagénomique, de la sparsité des données métagénomiques limites l'application des méthodes de régression classique. 
 
 # Méthode proposée
-Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+C \beta+\varepsilon$. Nous avons calculé les metrics comme le lambda et tracé les graphiques comme le qqplot
+Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+C \beta+\varepsilon$. Nous avons calculé les metrics comme le lambda et tracé les graphiques de qqplot pour qualifier la qualité de l'ajustement avant de conclure.
 
 
 # Écriture du modèle 
@@ -22,7 +22,7 @@ Le modèle de l'équation $Y=X_g \psi+C \beta+\varepsilon$ permet d'analyser l'�
 # Études de simulation
 Dans cette étude de simulation, nous simulons deux types de données $X$ : les données à partir des données observées et des données non observés de manière aléatoire.
 
-1. Simulation à partir des données
+1. Simulation à partir des données existantes. Pour cette simulation, nous utilisons les paramètres des différentes distributions à partir des estimations sur les données. 
 
 2. Simulation de façon aléatoire
    Cette simulation est issu 
