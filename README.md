@@ -74,10 +74,6 @@ Dans cette approche, la matrice de données $X$ est générée à partir de **pa
 
 Ces hypothèses sont importantes pour la validation des résultats des simulations et permettent d’étudier le comportement du modèle ***HMMDAY*** dans différents environnements statistiques.
 
---------------------------------------------------------------------------------------------------------------------------------------
-
-
-
 # Résultats
 
 Le modèle comparative  a permis de détecter le modèle qui s'ajuste le mieux et d'obtenir les résultats souhaités. Cependant, une amélioration et une extension de ce modèle en multidimension est souhaitable.
