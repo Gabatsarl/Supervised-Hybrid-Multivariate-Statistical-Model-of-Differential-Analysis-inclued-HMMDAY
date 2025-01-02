@@ -18,13 +18,13 @@ Où :
 - $Y$ représente la variable dépendante (ou la matrice de données métagénomiques observées),
 - $X_g$ est l'abondance du gène $g$,
 - $\psi$ et $\beta$ sont des coefficients,
-- $C$ est une condition binaire (par exemple, un facteur de classification),
+- $C$ est une condition binaire (par exemple, une condition expérimentale),
 - $\varepsilon$ est l'erreur du modèle, supposée suivre une distribution **normale** ou de **Student** selon le cas.
 
 Cette équation est relativement simple compte tenu du faite que c'est une régression linéaire. Malheureusement des difficultés comme la taille des échantillons métagénomique, de la sparsité des données métagénomiques, etc., limitent l'application des méthodes de régression classique. 
 
 # Méthode proposée
-Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+ C \beta+\varepsilon$. Nous avons calculé les metrics comme le $\lambda$ et tracé les graphiques de QQplot pour qualifier la qualité de l'ajustement avant de conclure. Cet ajustement de modèle à partir de DA incluant $Y$, nous la nommons le modèle $\textbf{HMMDAY}$.
+Nous proposons l'utilisation d'une stratégie classique issu de la méthode de l'équation $Y=X_g \psi+ C \beta+\varepsilon$. Nous avons calculé les metrics comme le $\lambda$ et tracé les graphiques de QQplot pour qualifier la qualité de l'ajustement avant de conclure. Cet ajustement de modèle à partir de DA incluant $Y$, nous la nommons le modèle ***\textbf{HMMDAY}***.
 
 # Écriture du modèle
 Le modèle de l'équation proposée est $Y=X_g \psi+C \beta+\varepsilon$ permet d'analyser l'éfficacité de chaque gène $g$ par rapport à la condition $C$ sur la variable $Y$. 
