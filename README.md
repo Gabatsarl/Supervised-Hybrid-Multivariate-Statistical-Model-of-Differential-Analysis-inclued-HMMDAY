@@ -3,8 +3,9 @@
 L'analyse différentielle (DA) permet d'étudier les gènes différentielle exprimés en fonction des conditions expérimentales. Si nous notons $X_g$ l'abondance des gènes et C les conditions métagénomiques, le DA s'exprime par :
 
 $$
-X_g=C \beta+\varepsilon \cdot
+X_g=C \beta+\varepsilon,
 $$
+where $\beta$ représente les effets fixes et $\varepsilon$, les erreurs aléatoires.
 
 Pour chaque gène $g$, nous étudions sa significativité par la valeur de la pvaleur associée au paramètre $\beta$. 
 
