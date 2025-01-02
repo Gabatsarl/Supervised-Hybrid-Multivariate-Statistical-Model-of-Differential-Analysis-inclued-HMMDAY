@@ -8,7 +8,7 @@ $$
 
 where $\beta$ représente les effets fixes et $\varepsilon$, les erreurs aléatoires.
 
-Pour chaque gène $g$, nous étudions sa significativité par la valeur de la pvaleur associée au paramètre $\beta$. 
+Pour chaque gène $g$, nous étudions sa significativité par la pvaleur associée au paramètre $\beta$. 
 
 Cependant, lorsque nous voulons faire cette analyse différentielle en incluant une variable d'intérêt $Y$, la problématique devient différente et implique donc 
 
