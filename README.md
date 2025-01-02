@@ -5,6 +5,7 @@ L'analyse différentielle (DA) permet d'étudier les gènes différentielle expr
 $$
 X_g=C \beta+\varepsilon,
 $$
+
 where $\beta$ représente les effets fixes et $\varepsilon$, les erreurs aléatoires.
 
 Pour chaque gène $g$, nous étudions sa significativité par la valeur de la pvaleur associée au paramètre $\beta$. 
