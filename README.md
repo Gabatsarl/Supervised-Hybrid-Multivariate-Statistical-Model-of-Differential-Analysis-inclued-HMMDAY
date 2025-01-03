@@ -81,4 +81,6 @@ Le modèle comparative  a permis de détecter le modèle qui s'ajuste le mieux e
 
 # Structure du programmes
 
-## Programme "Clean.R"
+## Programme "clean.R"
+
+## programme "umap.R"
