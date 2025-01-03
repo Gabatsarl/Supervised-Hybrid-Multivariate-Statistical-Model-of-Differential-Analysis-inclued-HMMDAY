@@ -79,4 +79,6 @@ Ces hypothèses sont importantes pour la validation des résultats des simulatio
 Le modèle comparative  a permis de détecter le modèle qui s'ajuste le mieux et d'obtenir les résultats souhaités. Cependant, une amélioration et une extension de ce modèle en multidimension est souhaitable.
 
 
+# Structure du programmes
 
+## Programme "Clean.R"
