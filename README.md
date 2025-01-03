@@ -82,5 +82,5 @@ Le modèle comparative  a permis de détecter le modèle qui s'ajuste le mieux e
 # Structure du programmes
 
 ## Programme "clean.R"
-
+Ce programme permet de nettoyer les données d'**abondance métagénomique** et d'**annotation** disponibles 
 ## programme "umap.R"
