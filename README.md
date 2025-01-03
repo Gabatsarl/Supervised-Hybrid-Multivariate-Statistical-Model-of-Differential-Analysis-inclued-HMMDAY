@@ -82,6 +82,15 @@ Le modèle comparative  a permis de détecter le modèle qui s'ajuste le mieux e
 # Structure du programmes
 
 ## Programme "clean.R"
-Ce programme permet de nettoyer les données d'**abondance métagénomique** et d'**annotation** disponibles. 
+Ce programme permet de nettoyer les données d'**abondance métagénomique** et d'**annotation** disponibles. Nous disposons de plusieurs jeux de données.
 
 ## programme "umap.R"
+Pour ce programme, nous mettons en oeuvre la méthode de réduction de dimension pour obtenir les deux vecteurs des axes (Axe 1 et Axe 2). L'information obtenue sera utiliser dans les régressions individuelles. Le fichier **umap.R** utile les résultats du fichier **clean.R**.
+
+## Programme "slide.R"
+Pour ce programmes, nous décomposons la matrice **X** en 100 jeux de données ayant le **n** lignes et p/100 colonnes. L'objectif de cette subdivision est de maximiser les ressources de **Compute Canada**. Le fichier **slide.R** utile les résultats du fichier **clean.R**
+
+## Programme "method.R"
+Pour ce programme, nous mettons en oeuvre le modèle **HMMDAY** sur le jeu de données de **slide.R** 
+
+## Programme 
