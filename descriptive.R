@@ -18,14 +18,16 @@ cl <- detectCores() %>% -1 %>% makeCluster  ###n'utiliser pas tous les coeurs (-
 registerDoParallel(cl)
 
 system.time(
-DES_DATA<-foreach( i= 1:n) %dopar% {
-  maxim<-max(GENOM_S[,i])
-  media<-median(GENOM_S[,i])
-  sde<-sd(GENOM_S[,i])
-  print(c(maxim,media,sde))
+  DES_DATA<-foreach( i= 1:n) %dopar% {
+    maxim<-max(GENOM_S[,I])
+    media<-median(GENOM_S[,I])
+    sde<-sd(GENOM_S[,I])
+    print(c(maxim,media,sde))
 }
 )
-# Arreter le cluster de calcul
+
+## Arreter le cluster de calcul
+
 stopCluster(cl)
 
 
