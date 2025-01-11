@@ -7,7 +7,7 @@ require(lattice) ; require(caret) ; library(gbm) ; library(e1071) ;  library(ran
 
 load("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/data_sediment_complet.RData")
 
-n<-ncol(GENOM_S)-4  ##4 variables sont supprimes : Time, Meso, Groups et NA_pmm. Dans GENOM_S "Compartment" est deja supprimer a cause de 
+n<-ncol(GENOM_S)-4  ## 4 variables sont supprimes : Time, Meso, Groups et NA_pmm. Dans GENOM_S "Compartment" est deja supprimer a cause de 
 print(n) ;
 print(GENOM_S[,n+1])
 
