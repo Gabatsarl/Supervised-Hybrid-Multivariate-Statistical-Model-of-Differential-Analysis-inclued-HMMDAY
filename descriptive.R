@@ -34,8 +34,7 @@ stopCluster(cl)
 
 ##reunir les resultats------------
 
-maxim<-vector(mode = "numeric", length = n)
-media<-vector(mode = "numeric", length = n)
+maxim<-vector(mode = "numeric", length = n) ; media<-vector(mode = "numeric", length = n)
 sde<-vector(mode = "numeric", length = n)
 
 for(i in 1:n){
