@@ -1,9 +1,7 @@
-##load the packages
+## Load the packages
 
-library(elasticnet) ; library(kernlab) ; library(xgboost) ; library(glmnet)
-library(RSNNS) ; library(MASS) ; library(dplyr) ; require(haven)
-require(ggplot2) ; require(lattice) ; require(caret) ; library(gbm)
-library(e1071) ;  library(randomForest) ; library(xgboost) ; library(catboost)
+library(elasticnet) ; library(kernlab) ; library(xgboost) ; library(glmnet) ; library(RSNNS) ; library(MASS) ; library(dplyr) ; require(haven)
+require(ggplot2) ; require(lattice) ; require(caret) ; library(gbm) ; library(e1071) ;  library(randomForest) ; library(xgboost) ; library(catboost)
 
 ###---Recharger le fichier des resultats precedents------##
 
