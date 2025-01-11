@@ -19,7 +19,6 @@ registerDoParallel(cl)
 
 system.time(
 DES_DATA<-foreach( i= 1:n) %dopar% {
-#for(i in 1:n){
   maxim<-max(GENOM_S[,i])
   media<-median(GENOM_S[,i])
   sde<-sd(GENOM_S[,i])
@@ -62,8 +61,7 @@ geom_boxplot(aes(y = maxim), fill = "lightblue", color = "black",
   labs(x = "", y = "Valeur ppm") +
   ggtitle("Boxplot des valeurs maximales")
 
-ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOXPLOY_MAX.jpg",
-       plot=pmax)
+ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOXPLOY_MAX.jpg", plot=pmax)
 
 ###mediane
 
@@ -73,14 +71,12 @@ geom_boxplot(aes(y = media), fill = "lightblue", color = "black",
   labs(x = "", y = "Valeur ppm") +
   ggtitle("Boxplot des valeurs medianes des genes")
 
-ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOX_MEDIAN.jpg",
-       plot=pmedia)
+ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOX_MEDIAN.jpg", plot=pmedia)
 
 ####--Standard----
 psd<-ggplot() +
-  geom_boxplot(aes(y = sde), fill = "lightblue", color = "black",
-               alpha = 0.7, outlier.color = "red") +
-  labs(x = "", y = "Valeur ppm") +
+geom_boxplot(aes(y = sde), fill = "lightblue", color = "black", alpha = 0.7, outlier.color = "red") +
+labs(x = "", y = "Valeur ppm") +
   ggtitle("Boxplot des ecart-types")
 
 
