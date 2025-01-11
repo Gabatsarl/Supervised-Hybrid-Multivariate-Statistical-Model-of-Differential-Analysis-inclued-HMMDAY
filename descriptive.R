@@ -66,8 +66,7 @@ ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOXPLOY_MAX.jpg", pl
 ###mediane
 
 pmedia<-ggplot() +
-geom_boxplot(aes(y = media), fill = "lightblue", color = "black",
-             alpha = 0.7, outlier.color = "red") +
+geom_boxplot(aes(y = media), fill = "lightblue", color = "black", alpha = 0.7, outlier.color = "red") +
   labs(x = "", y = "Valeur ppm") +
   ggtitle("Boxplot des valeurs medianes des genes")
 
@@ -76,22 +75,22 @@ ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOX_MEDIAN.jpg", plo
 ####--Standard----
 psd<-ggplot() +
 geom_boxplot(aes(y = sde), fill = "lightblue", color = "black", alpha = 0.7, outlier.color = "red") +
-labs(x = "", y = "Valeur ppm") +
+  labs(x = "", y = "Valeur ppm") +
   ggtitle("Boxplot des ecart-types")
 
 
-ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOX_SD.jpg",
-       plot=psd)
+ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOX_SD.jpg", plot=psd)
 
 
 
 ##----Grid of the plot-------
-grid<-plot_grid(pmax, pmedia,psd, ncol = 3)
 
+grid<-plot_grid(pmax, pmedia,psd, ncol = 3)
 ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/GRILL.jpg", plot=gris)
 
 
 ## Save the rdata
+
 save.image(file = "/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/Descriptive_sediment_Complet.RData")
 
 
