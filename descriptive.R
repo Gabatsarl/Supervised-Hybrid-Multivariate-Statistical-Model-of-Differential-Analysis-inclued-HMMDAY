@@ -54,10 +54,9 @@ hist(log10(media+1),30,col="skyblue",xlab="Log (maximum)", ylab="Frequence")
 
 ##maximum
 pmax<-ggplot() +
-geom_boxplot(aes(y = maxim), fill = "lightblue", color = "black",
-             alpha = 0.7, outlier.color = "red") +
-  labs(x = "", y = "Valeur ppm") +
-  ggtitle("Boxplot des valeurs maximales")
+      geom_boxplot(aes(y = maxim), fill = "lightblue", color = "black", alpha = 0.7, outlier.color = "red") +
+      labs(x = "", y = "Valeur ppm") +
+      ggtitle("Boxplot des valeurs maximales")
 
 ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOXPLOY_MAX.jpg", plot=pmax)
 
