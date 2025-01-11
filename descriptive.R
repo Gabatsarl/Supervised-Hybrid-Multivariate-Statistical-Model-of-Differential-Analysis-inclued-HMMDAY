@@ -74,9 +74,9 @@ ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOX_MEDIAN.jpg", plo
 
 ####--Standard----
 psd<-ggplot() +
-geom_boxplot(aes(y = sde), fill = "lightblue", color = "black", alpha = 0.7, outlier.color = "red") +
-  labs(x = "", y = "Valeur ppm") +
-  ggtitle("Boxplot des ecart-types")
+     geom_boxplot(aes(y = sde), fill = "lightblue", color = "black", alpha = 0.7, outlier.color = "red") +
+     labs(x = "", y = "Valeur ppm") +
+     ggtitle("Boxplot des ecart-types")
 
 
 ggsave("/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/BOX_SD.jpg", plot=psd)
