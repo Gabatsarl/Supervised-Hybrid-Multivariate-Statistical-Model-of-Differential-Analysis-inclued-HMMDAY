@@ -11,7 +11,7 @@ n<-ncol(GENOM_S)-4  ## 4 variables sont supprimes : Time, Meso, Groups et NA_pmm
 print(n) ;
 print(GENOM_S[,n+1])
 
-###-----data final using------------------------------
+###----- Data final using------------------------------
 
 library(doParallel)
 cl <- detectCores() %>% -1 %>% makeCluster  ###n'utiliser pas tous les coeurs (-1)
