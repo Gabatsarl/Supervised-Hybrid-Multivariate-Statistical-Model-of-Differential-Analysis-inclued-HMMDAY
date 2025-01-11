@@ -37,9 +37,9 @@ media<-vector(mode = "numeric", length = n)
 sde<-vector(mode = "numeric", length = n)
 
 for(i in 1:n){
-                      maxim[i]<-DES_DATA[[i]][[1]] ; 
-                      media[i]<-DES_DATA[[i]][[2]] ;
-                      sde[i]<-DES_DATA[[i]][[3]]
+  maxim[i]<-DES_DATA[[i]][[1]] ;
+  media[i]<-DES_DATA[[i]][[2]] ;
+  sde[i]<-DES_DATA[[i]][[3]]
  
 
    }
