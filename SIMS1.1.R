@@ -1,4 +1,4 @@
-## Load the packages
+-- Load the packages
 
 library(ape) ; library(vegan) ; library(limma) ; library("statmod")
 library(edgeR) ; library(ggplot2) ; library(Rcpp) ; library(devtools)
@@ -6,7 +6,7 @@ library(metaSPARSim) ; library(cowplot) ; library(plyr) ; library(ggpubr)
 library(PRROC) ; library(gamlss.dist) ; library(doParallel) ; library(reshape2) ; library(MCMCpack)
 
 
-## Create the function of load the data
+##-- Create the function of load the data -----------##
 
 simulation_NB<-function(B, # Number of replication,
                         beta, alpha, # parameters of modelling 
