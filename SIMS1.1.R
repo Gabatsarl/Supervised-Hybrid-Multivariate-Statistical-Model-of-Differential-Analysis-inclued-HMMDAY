@@ -28,9 +28,8 @@ simulation_NB<-function(B, # Number of replication,
   ESTIMATION1<-ESTIMATION2<-ESTIMATION3<-ESTIMATION4<-ESTIMATION5<-ESTIMATION6<-
   PVALUE1<-PVALUE2<-PVALUE3<-PVALUE4<-PVALUE5<-PVALUE6<-
   LOGFC1<-LOGFC2<-LOGFC3<-LOGFC4<-LOGFC5<-LOGFC6<-matrix(0,ncol=B,nrow = n_taxa)
-  #colnames(ESTIMATION)<-c("beta.1") #
-  #colnames(PVALUE)<-c("pval.1") #pval.i :=pvalue de beta.i
-  #colnames(LOGFC)<-c("logFCbeta.1")
+
+  
   
   colnames(LAMBDA)<-colnames(AUC)<-c("Poisson","NB","Hurdle","ZIP","DM","BM")
   for (k in 1:B){
