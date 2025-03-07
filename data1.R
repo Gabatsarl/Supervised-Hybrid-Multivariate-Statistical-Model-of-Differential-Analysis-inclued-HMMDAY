@@ -8,8 +8,7 @@ require(haven) ; require(ggplot2) ; library (reshape2) ; require(lattice) ; requ
 
 ###------ Charger les donnees metagenomic --------------###
 
-XX= read.csv('/lustre03/project/6074237/gabat/GENOM/merged_gene_abundance.tsv', sep='\t', header = TRUE,
-             row.names = 1,comment.char="*")
+XX= read.csv('/lustre03/project/6074237/gabat/GENOM/merged_gene_abundance.tsv', sep='\t', header = TRUE, row.names = 1, comment.char="*")
 
 XXT<-XX
 XXT<-as.data.frame(t(XXT))
