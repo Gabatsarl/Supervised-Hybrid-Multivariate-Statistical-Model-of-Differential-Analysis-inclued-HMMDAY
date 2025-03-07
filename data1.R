@@ -42,8 +42,7 @@ names(mapping)[1] <- "ID"
 ##-----------Ajouter des variables-------------##
 ##prendre une partie des donnees
 
-g1<- gsub("\\.\\.\\.", "---", XXT[,ncol(XXT)])  ##remplacer le ... de ID par ---
-
+g1<- gsub("\\.\\.\\.", "---", XXT[,ncol(XXT)])  ## 
 g1 <- unlist(lapply(strsplit(g1, "---"), function(x) x[1]))
 g2<-unlist(lapply(strsplit(mapping[,1], "---"), function(x) x[1]))
 
