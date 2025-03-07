@@ -6,7 +6,7 @@
 library(elasticnet) ; library(kernlab) ; library(xgboost) ; library(glmnet) ; library(RSNNS); library(MASS) ; library(dplyr) ; 
 require(haven) ; require(ggplot2) ; library (reshape2) ; require(lattice) ; require(caret) ; library(gbm) ; library(e1071) 
 
-###------ Charger les donnees metagenomic --------------###
+###-------------- Charger les donnees metagenomic --------------###
 
 XX= read.csv('/merged_gene_abundance.tsv', sep='\t', header = TRUE, row.names = 1, comment.char="*")
 
@@ -15,7 +15,7 @@ XXT$ID=colnames(XX) ; rm(XX)
 
 
 
-##------load NA Degradation data------------------------###
+##------------ Load NA Degradation data------------------------###
 
 mapping_TRAIN <- read.csv("/lustre03/project/6074237/gabat/GENOM/mapping_TRAIN.tsv", sep=";", comment.char="*", header=TRUE)
 
