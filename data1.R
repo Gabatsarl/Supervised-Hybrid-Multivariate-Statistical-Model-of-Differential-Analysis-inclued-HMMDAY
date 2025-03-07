@@ -8,7 +8,7 @@ library(dplyr) ; require(haven) ; require(ggplot2) ; library (reshape2) ; requir
 
 ###-------------- Charger les donnees metagenomic --------------###
 
-XX= read.csv('/merged_gene_abundance.tsv', sep='\t', header = TRUE, row.names = 1, comment.char= "*")
+XX= read.csv('/merged_gene_abundance.tsv', sep= '\t', header = TRUE, row.names = 1, comment.char= "*")
 
 XXT<-XX ; XXT<-as.data.frame(t(XXT)) ; row.names(XXT)<-NULL ; XXT$ID=colnames(XX) ; rm(XX)
 
