@@ -1,19 +1,9 @@
-## load the packages
+## Load the packages
 
-library(ape) ; library(vegan)
-library(limma)
-library("statmod")
-library(edgeR)
-library(ggplot2)
-library(Rcpp)
-library(devtools)
-library(metaSPARSim)
-library(cowplot)
-library(plyr)
-library(ggpubr)
-library(PRROC)
+library(ape) ; library(vegan) ; library(limma) ; library(statmod) ;library(edgeR) ; library(ggplot2) ; library(Rcpp)  ; 
+library(devtools) ; library(metaSPARSim) ; library(cowplot) ; library(plyr) ; library(ggpubr) ; library(PRROC)
 
-## load the data
+## Load the data
 gen_data <- load("/Users/timakpo/Downloads/Data1_Paper2.RData")
 
 groups<-data$groups
