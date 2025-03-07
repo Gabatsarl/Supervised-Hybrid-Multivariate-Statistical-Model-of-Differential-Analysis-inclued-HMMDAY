@@ -21,7 +21,7 @@ mapping_TRAIN <- read.csv("/GENOM/mapping_TRAIN.tsv", sep=";", comment.char="*",
 
 groups<-NA
 groups[which((mapping_TRAIN$Sample_type=="No_plant")&(mapping_TRAIN$Water_type=="OSPW"))]<-"OSPW"
-groups[which(mapping_TRAIN$Sample_type=="Carex")]<-"OSPW+Carex"
+groups[which(mapping_TRAIN$Sample_type=="Carex")] <- "OSPW+Carex"
 groups[which((mapping_TRAIN$Sample_type=="No_plant")&(mapping_TRAIN$Water_type=="Artificial_OSPW"))]<-"Control"
 
 mapping_TRAIN$groups<-groups
