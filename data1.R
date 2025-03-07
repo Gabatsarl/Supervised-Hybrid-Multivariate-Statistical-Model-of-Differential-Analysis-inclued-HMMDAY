@@ -14,9 +14,9 @@ XXT<-XX ; XXT<-as.data.frame(t(XXT)) ; row.names(XXT)<-NULL ; XXT$ID=colnames(XX
 
 
 
-##------------ Load NA Degradation data-----------------------------##
+##------------ Load NA Degradation data -----------------------------##
 
-mapping_TRAIN <- read.csv("/lustre03/project/6074237/gabat/GENOM/mapping_TRAIN.tsv", sep=";", comment.char="*", header=TRUE)
+mapping_TRAIN <- read.csv("/GENOM/mapping_TRAIN.tsv", sep=";", comment.char="*", header=TRUE)
 
 
 ###---------------- Correction d'une variables sous------------##
@@ -24,7 +24,6 @@ mapping_TRAIN <- read.csv("/lustre03/project/6074237/gabat/GENOM/mapping_TRAIN.t
 groups<-NA
 
 groups[which((mapping_TRAIN$Sample_type=="No_plant")&(mapping_TRAIN$Water_type=="OSPW"))]<-"OSPW"
-
 groups[which(mapping_TRAIN$Sample_type=="Carex")]<-"OSPW+Carex"
 groups[which((mapping_TRAIN$Sample_type=="No_plant")&(mapping_TRAIN$Water_type=="Artificial_OSPW"))]<-"Control"
 
