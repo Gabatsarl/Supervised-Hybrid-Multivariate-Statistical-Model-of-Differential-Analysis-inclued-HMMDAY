@@ -12,7 +12,6 @@ XX= read.csv('/merged_gene_abundance.tsv', sep='\t', header = TRUE, row.names = 
 XXT<-XX ; XXT<-as.data.frame(t(XXT)) ; row.names(XXT)<-NULL ; XXT$ID=colnames(XX) ; rm(XX)
 
 
-
 ##------------ Load NA Degradation data -----------------------------##
 
 mapping_TRAIN <- read.csv("/GENOM/mapping_TRAIN.tsv", sep=";", comment.char="*", header=TRUE)
@@ -27,8 +26,6 @@ groups[which((mapping_TRAIN$Sample_type=="No_plant")&(mapping_TRAIN$Water_type==
 
 mapping_TRAIN$groups<-groups
 
-
-
 ####----------supprimer les colonnes non moins importantes -------##
 
 mapping<-mapping_TRAIN[,-c(2,5,6,8)]
@@ -36,8 +33,6 @@ mapping<-mapping_TRAIN[,-c(2,5,6,8)]
 mapping<-mapping[,c(1:3,6,4,5)]
 names(mapping)[1] <- "ID"
 #mapping<-mapping[which(mapping$groups!="Control"),]
-
-
 
 ##-----------Ajouter des variables-------------##
 ##prendre une partie des donnees
@@ -63,8 +58,6 @@ print(length(remove)) ; print(dim(GENOM_S))
 
 ###------ Supprimer des data inutiles pour alleger le travail --------------##
 rm(remove) ; rm(XXT) ; rm(mapping) ; rm(mapping_TRAIN)
-
-
 
 ###----------- Enregistrement des données --------------##
 
