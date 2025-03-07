@@ -61,13 +61,13 @@ GENOM_S <- GENOM_S[, -remove]
 ##---Afficher le nombre de variable vide, nulle ou constante-----## 
 print(length(remove)) ; print(dim(GENOM_S))
 
-###------Supprimer des data inutiles pour alleger le travail--------------##
+###------ Supprimer des data inutiles pour alleger le travail --------------##
 rm(remove) ; rm(XXT) ; rm(mapping) ; rm(mapping_TRAIN)
 
 
 
-###-------ENREGISTRER LES DONNEE SEDIMENTS-----------##
+###----------- Enregistrement des données --------------##
 
-save.image(file = "/home/gabat/scratch/GENOM/LOGICIEL-R/STEP0/SOLUTION/data1_complet.RData")
+save.image(file = "/data1_complet.RData")
 
 
