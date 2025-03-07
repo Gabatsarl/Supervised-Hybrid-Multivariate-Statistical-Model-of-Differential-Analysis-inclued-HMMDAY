@@ -20,7 +20,7 @@ XXT$ID=colnames(XX) ; rm(XX)
 mapping_TRAIN <- read.csv("/lustre03/project/6074237/gabat/GENOM/mapping_TRAIN.tsv", sep=";", comment.char="*", header=TRUE)
 
 
-###---Correction d'une variables sous------------------------------------------
+###---------------- Correction d'une variables sous------------###
 
 groups<-NA
 
