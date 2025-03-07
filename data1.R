@@ -7,7 +7,7 @@
 library(elasticnet) ; library(kernlab) ; library(xgboost) ; library(glmnet) ; library(RSNNS); library(MASS) ; 
 library(dplyr) ; require(haven) ; require(ggplot2) ; require(lattice) ; require(caret) ; library(gbm) ; library(e1071) 
 
-###---Charger les donn      es metagenomic--------------###
+###---Charger les donnees metagenomic--------------###
 
 XX= read.csv('/lustre03/project/6074237/gabat/GENOM/merged_gene_abundance.tsv',sep='\t',header = TRUE,
              row.names = 1,comment.char="*")
