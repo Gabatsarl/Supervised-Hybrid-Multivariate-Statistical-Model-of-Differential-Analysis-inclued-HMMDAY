@@ -12,7 +12,7 @@ XX= read.csv('/lustre03/project/6074237/gabat/GENOM/merged_gene_abundance.tsv', 
 
 XXT<-XX
 XXT<-as.data.frame(t(XXT))
-row.names(XXT)=NULL
+row.names(XXT)<-NULL
 XXT$ID=colnames(XX)
 
 rm(XX)
