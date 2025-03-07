@@ -21,8 +21,7 @@ rm(XX)
 
 ##------load NA Degradation data------------------------###
 
-mapping_TRAIN <- read.csv("/lustre03/project/6074237/gabat/GENOM/mapping_TRAIN.tsv",sep=";",
-                          comment.char="*",header=TRUE)
+mapping_TRAIN <- read.csv("/lustre03/project/6074237/gabat/GENOM/mapping_TRAIN.tsv", sep=";", comment.char="*", header=TRUE)
 
 
 ###---Correction d'une variables sous------------------------------------------
