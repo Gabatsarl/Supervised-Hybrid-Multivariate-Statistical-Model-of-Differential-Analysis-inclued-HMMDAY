@@ -44,11 +44,11 @@ g2<-unlist(lapply(strsplit(mapping[,1], "---"), function(x) x[1]))
 ###-----Remplacer les colonnes par l'importance--------##
 XXT$ID<-g1 ; mapping$ID<-g2
 
-##---Merger les deux datas-----------------------------##
+##-------- Merger les deux datas -----------------##
 GENOM_S<-merge(XXT,mapping,by="ID")
 GENOM_S$ID<-NULL
 
-##-----Supprimer les variables avec des zeros partout--------##
+##-----Supprimer les variables avec des zeros partout --------##
 remove <- nearZeroVar(GENOM_S)
 GENOM_S <- GENOM_S[, -remove]
 
