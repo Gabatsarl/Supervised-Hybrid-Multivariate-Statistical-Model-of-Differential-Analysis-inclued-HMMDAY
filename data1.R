@@ -14,12 +14,12 @@ XXT<-XX ; XXT<-as.data.frame(t(XXT)) ; row.names(XXT)<-NULL ; XXT$ID=colnames(XX
 
 
 
-##------------ Load NA Degradation data------------------------###
+##------------ Load NA Degradation data-----------------------------##
 
 mapping_TRAIN <- read.csv("/lustre03/project/6074237/gabat/GENOM/mapping_TRAIN.tsv", sep=";", comment.char="*", header=TRUE)
 
 
-###---------------- Correction d'une variables sous------------###
+###---------------- Correction d'une variables sous------------##
 
 groups<-NA
 
