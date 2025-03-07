@@ -10,12 +10,8 @@ require(haven) ; require(ggplot2) ; library (reshape2) ; require(lattice) ; requ
 
 XX= read.csv('/lustre03/project/6074237/gabat/GENOM/merged_gene_abundance.tsv', sep='\t', header = TRUE, row.names = 1, comment.char="*")
 
-XXT<-XX
-XXT<-as.data.frame(t(XXT))
-row.names(XXT)<-NULL
-XXT$ID=colnames(XX)
-
-rm(XX)
+XXT<-XX ; XXT<-as.data.frame(t(XXT)) ; row.names(XXT)<-NULL
+XXT$ID=colnames(XX) ; rm(XX)
 
 
 
