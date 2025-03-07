@@ -23,7 +23,6 @@ groups<-NA
 groups[which((mapping_TRAIN$Sample_type=="No_plant")&(mapping_TRAIN$Water_type=="OSPW"))]<-"OSPW"
 groups[which(mapping_TRAIN$Sample_type=="Carex")] <- "OSPW+Carex"
 groups[which((mapping_TRAIN$Sample_type=="No_plant")&(mapping_TRAIN$Water_type=="Artificial_OSPW"))]<-"Control"
-
 mapping_TRAIN$groups<-groups
 
 ####----------supprimer les colonnes non moins importantes -------##
