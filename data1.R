@@ -33,7 +33,6 @@ groups[which((mapping_TRAIN$Sample_type=="No_plant")&(mapping_TRAIN$Water_type==
 groups[which(mapping_TRAIN$Sample_type=="Carex")]<-"OSPW+Carex"
 groups[which((mapping_TRAIN$Sample_type=="No_plant")&(mapping_TRAIN$Water_type=="Artificial_OSPW"))]<-"Control"
 
-
 mapping_TRAIN$groups<-groups
 
 
@@ -57,37 +56,22 @@ g1 <- unlist(lapply(strsplit(g1, "---"), function(x) x[1]))
 g2<-unlist(lapply(strsplit(mapping[,1], "---"), function(x) x[1]))
 
 
-
-
 ###-----Remplacer les colonnes par l'importance--------##
 XXT$ID<-g1 ; mapping$ID<-g2
-
 
 ##---Merger les deux datas-----------------------------##
 GENOM_S<-merge(XXT,mapping,by="ID")
 GENOM_S$ID<-NULL
 
-
 ##-----Supprimer les variables avec des zeros partout--------##
 remove <- nearZeroVar(GENOM_S)
 GENOM_S <- GENOM_S[, -remove]
 
-
-##prendre ce qui est important---------
-
-#GENOM_S<-GENOM[which(GENOM$Compartment=="Sediments"),]
-#GENOM_S<- subset(GENOM_S, select = -c(Compartment))
-#GENOM_S<-GENOM_S[which(GENOM_S$Time!="D0"),]
-
 ##---Afficher le nombre de variable vide, nulle ou constante-----## 
-print(length(remove))
-print(dim(GENOM_S))
+print(length(remove)) ; print(dim(GENOM_S))
 
-###------Supprimer des data inutiles--------------##
-rm(remove)
-rm(XXT)
-rm(mapping)
-rm(mapping_TRAIN)
+###------Supprimer des data inutiles pour alleger le travail--------------##
+rm(remove) ; rm(XXT) ; rm(mapping) ; rm(mapping_TRAIN)
 
 
 
