@@ -1,1 +1,8 @@
+##-------Description des fichiers contenues dans ce dossier-----------##
 
+Ce dossier contient deux trois fichiers :
+1. Le premier fichier nommer "" contient le texte qui décrit chaque fichier
+
+2. Le second fichier nommer "" contient la function  utiliser pour simuler des matrices d'abondance X à partir des données d'abondance existantes X_obs.
+
+3. Le second fichier nommer "" contient la function utiliser pour simuler des matrices d'abondance X à partir des données d'abondance existantes X_obs.
