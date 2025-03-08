@@ -1,8 +1,7 @@
 ## load the packages
 
-library(ape) ; library(vegan) ;library(limma) ;library("statmod") ; library(edgeR) ; library(ggplot2) ; library(Rcpp) ; library(devtools) ; library(metaSPARSim)
-library(cowplot) ; library(plyr) ; library(ggpubr) ; library(PRROC) ; library(gamlss.dist) ; library(doParallel) ; library(reshape2) ; library(MCMCpack)
-library(variancePartition) ; library(BiocParallel)
+pacman::p_load(ape, vegan, limma, statmod, edgeR, ggplot2, Rcpp, devtools, metaSPARSim, cowplot, plyr, ggpubr, PRROC, gamlss.dist, 
+               doParallel, reshape2, MCMCpack, variancePartition, BiocParallel, tidyr, dplyr)
 
 ## Créer des données simulées
 
