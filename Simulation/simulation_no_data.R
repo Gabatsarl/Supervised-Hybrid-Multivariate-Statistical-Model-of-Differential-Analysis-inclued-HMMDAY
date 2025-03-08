@@ -398,5 +398,4 @@ pr <- pr.curve(scores.class0 = scores[labels == 0],
                scores.class1 = scores[labels == 1],
                curve = TRUE)
 
-plot(pr,rand.plot = TRUE, fill.area = TRUE,
-     fill.color = rgb(0.8,1,0.8), maxminrand.col = "blue")
+plot(pr,rand.plot = TRUE, fill.area = TRUE, fill.color = rgb(0.8,1,0.8), maxminrand.col = "blue")
