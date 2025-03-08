@@ -1,4 +1,10 @@
-## load the packages
+## Ce fichier contient le code de génération des données X qui est une copie des données de base X_obs suivant plusieurs distribution
+## Input :
+##
+## Output : 
+
+
+## Load the packages
 
 pacman::p_load(ape, vegan, limma, statmod, edgeR, ggplot2, Rcpp, devtools, metaSPARSim, cowplot, plyr, ggpubr, PRROC, gamlss.dist, 
                doParallel, reshape2, MCMCpack, variancePartition, BiocParallel, tidyr, dplyr)
