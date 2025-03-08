@@ -31,9 +31,9 @@ simulation_NB<-function(B, # Number of replication,
    ## Parameters estimates
   ESTIMATION1<-ESTIMATION2<-ESTIMATION3<-ESTIMATION4<-
     PVALUE1<-PVALUE2<-PVALUE3<-PVALUE4<-
-    LOGFC1<-LOGFC2<-LOGFC3<-LOGFC4<-matrix(0,ncol=B,nrow = n_taxa)
-  LOGFC_NB_EDGE<-LOGFC_Hurdle_EDGE<-LOGFC_ZIP_EDGE<-LOGFC_Mel_EDGE<-matrix(0,ncol=B,nrow = n_taxa)
-  LOGFC_NB_Limma<-LOGFC_Hurdle_Limma<-LOGFC_ZIP_Limma<-LOGFC_Mel_Limma<-matrix(0,ncol=B,nrow = n_taxa)
+    LOGFC1<-LOGFC2<-LOGFC3<-LOGFC4<-
+  LOGFC_NB_EDGE<-LOGFC_Hurdle_EDGE<-LOGFC_ZIP_EDGE<-LOGFC_Mel_EDGE<-
+  LOGFC_NB_Limma<-LOGFC_Hurdle_Limma<-LOGFC_ZIP_Limma<-LOGFC_Mel_Limma<-
   LOGFC_NB_Dream<-LOGFC_Hurdle_Dream<-LOGFC_ZIP_Dream<-LOGFC_Mel_Dream<-matrix(0,ncol=B,nrow = n_taxa)
   
   LAMBDA_X<-LAMBDA_Y<-LAMBDA_Z<-matrix(0,nrow=B,ncol = 4)
