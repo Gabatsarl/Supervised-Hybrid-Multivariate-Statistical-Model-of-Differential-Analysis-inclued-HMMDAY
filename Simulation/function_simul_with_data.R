@@ -50,6 +50,8 @@ Simul_with_data<-function(B, #Nombre de replication
     X_Poisson <- generate_poisson_counts(nrow(gen_data), ncol(gen_data),
                                                 lambda_estimates,
                                                 sqrt(lambda_estimates))
+
+    ## PCoA for X
     m.D <- vegdist(t(X_Poisson), "manhattan",na.rm = TRUE) ; 
     result_GENERAL <- pcoa(m.D )
     
