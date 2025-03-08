@@ -26,7 +26,12 @@ simulation_NB<-function(B, # Number of replication,
 
   
   ## Matrice des facteurs d'impact (IF)
-  LAMBDA<-AUC<-matrix(0,nrow=B,ncol = 4)
+  LAMBDA<-  LAMBDA_X<-LAMBDA_Y<-LAMBDA_Z<-matrix(0,nrow=B,ncol = 4)
+
+  colnames(LAMBDA)<-colnames(AUC)<-c("NB","Hurdle","ZIP","NB_Hurdle_ZIP")
+  colnames(LAMBDA_X)<-c("Edge_NB","Edge_Hurdle","Edge_ZIP","Edge_NB_Hurdle_ZIP")
+  colnames(LAMBDA_Y)<-c("Limma_NB","Limma_Hurdle","Limma_ZIP","Limma_NB_Hurdle_ZIP")
+  colnames(LAMBDA_Z)<-c("Dream_NB","Dream_Hurdle","Dream_ZIP","Dream_NB_Hurdle_ZIP")
 
    ## Parameters estimates
   ESTIMATION1<-ESTIMATION2<-ESTIMATION3<-ESTIMATION4<-
@@ -36,14 +41,8 @@ simulation_NB<-function(B, # Number of replication,
   LOGFC_NB_Limma<-LOGFC_Hurdle_Limma<-LOGFC_ZIP_Limma<-LOGFC_Mel_Limma<-
   LOGFC_NB_Dream<-LOGFC_Hurdle_Dream<-LOGFC_ZIP_Dream<-LOGFC_Mel_Dream<-matrix(0,ncol=B,nrow = n_taxa)
   
-  LAMBDA_X<-LAMBDA_Y<-LAMBDA_Z<-matrix(0,nrow=B,ncol = 4)
 
-  
-  colnames(LAMBDA)<-colnames(AUC)<-c("NB","Hurdle","ZIP","NB_Hurdle_ZIP")
-  colnames(LAMBDA_X)<-c("Edge_NB","Edge_Hurdle","Edge_ZIP","Edge_NB_Hurdle_ZIP")
-  colnames(LAMBDA_Y)<-c("Limma_NB","Limma_Hurdle","Limma_ZIP","Limma_NB_Hurdle_ZIP")
-  colnames(LAMBDA_Z)<-c("Dream_NB","Dream_Hurdle","Dream_ZIP","Dream_NB_Hurdle_ZIP")
-  
+  ## La boucle de la replication
   for (k in 1:B){
     
    
@@ -60,11 +59,11 @@ simulation_NB<-function(B, # Number of replication,
     }
     size_nb<-runif(n_taxa,0,1)
     mu_nb<-sample(n_taxa,n_taxa)
-    sim_data_nb <- generate_nb_counts(n_taxa, n_samples, 
+    X_NB <- generate_nb_counts(n_taxa, n_samples, 
                                       size=size_nb, mu=mu_nb) #ligne =taxa, colonne=echantillon
     
     
-    m.D <- vegdist(t(sim_data_nb), "manhattan") ; 
+    m.D <- vegdist(t(X_NB), "manhattan") ; 
     result_GENERAL <- pcoa(m.D )
     
     # ================================================##
@@ -76,7 +75,7 @@ simulation_NB<-function(B, # Number of replication,
     
     ##===========Calculate Y===================## 
     
-    Xbeta<-t(sim_data_nb)%*%beta
+    Xbeta<-t(X_NB)%*%beta
     eps<-rnorm(n_samples,0,1)
     Y<-Xbeta+alpha*as.numeric(factor(groups))+eps
     data$Y<-as.numeric(Y)
@@ -90,7 +89,7 @@ simulation_NB<-function(B, # Number of replication,
     system.time(
       Three_beta_pval<-foreach( i= 1:n_taxa,.packages=c("limma")) %dopar% {
         #for(i in 1:n){
-        data$Xg<-log10(sim_data_nb[i,]+1)
+        data$Xg<-log10(X_NB[i,]+1)
         design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
         
         ## Fitting the model 
@@ -127,17 +126,17 @@ simulation_NB<-function(B, # Number of replication,
       
     }
     
-    pval_NB<-PVALUE1[,k]
-    LAMBDA[k,1]<-median(qchisq(1-pval_NB,1),na.rm = "TRUE")/qchisq(0.5,1)
+    LAMBDA[k,1]<-median(qchisq(1-PVALUE1[,k],1),na.rm = "TRUE")/qchisq(0.5,1)
     
     ##=======================================
     #
     #
     # Application de  model "edge"
-    #sim_data_nb<-sim_data_nb;
+    
     metaData<-data.frame(groups=groups)
+    
     # Préparation des données
-    d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
+    d  <- DGEList(counts = X_NB, group = metaData$groups)
     y_d <- calcNormFactors(d)
     
     # Définition du design
@@ -161,7 +160,7 @@ simulation_NB<-function(B, # Number of replication,
     ##===============================##
     
 
-    #d <- DGEList(sim_data_nb, group = metaData$groups)
+    #d <- DGEList(X_NB, group = metaData$groups)
     y <- voom(d, design, plot = FALSE)
     limma_fit <- lmFit(y, design)
     tmp <- contrasts.fit(limma_fit, coef = 2) 
@@ -171,8 +170,8 @@ simulation_NB<-function(B, # Number of replication,
     
     
     # Take the result
-    pval<-result$P.Val
-    LAMBDA_Y[k,1]<-median(qchisq(1-pval,1),na.rm = "TRUE")/qchisq(0.5,1)
+    
+    LAMBDA_Y[k,1]<-median(qchisq(1-result$P.Val,1),na.rm = "TRUE")/qchisq(0.5,1)
     LOGFC_NB_Limma[,k]<-result$logFC
 
     
@@ -442,7 +441,7 @@ simulation_NB<-function(B, # Number of replication,
     
     ## Limma application ==================================
     
-    #d <- DGEList(sim_data_nb, group = metaData$groups)
+    #d <- DGEList(X_NB, group = metaData$groups)
     y <- voom(d, design, plot = FALSE)
     limma_fit <- lmFit(y, design)
     tmp <- contrasts.fit(limma_fit, coef = 2) 
@@ -459,7 +458,7 @@ simulation_NB<-function(B, # Number of replication,
     
     ## Model Dream
 
-    #d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
+    #d  <- DGEList(counts = X_NB, group = metaData$groups)
     #y_d <- calcNormFactors(d)
     
     # Specify parallel processing parameters
@@ -497,7 +496,7 @@ simulation_NB<-function(B, # Number of replication,
     ###=============================================================
     ##
     ## DIstribution de melange "NB", "Hurdle" et "ZIP"
-    sim_data_nb<-t(sim_data_nb)
+    X_NB<-t(X_NB)
     X_Hurdle<-X_Hurdle
     X_ZIP<-t(X_ZIP)
     
@@ -510,9 +509,9 @@ simulation_NB<-function(B, # Number of replication,
 
     gen_ZIP<-indice_gene[-c(gen_nb,gen_Hurdle_sample)]
 
-    data_NB<-sim_data_nb[,gen_nb]
+    data_NB<-X_NB[,gen_nb]
     data_Hurdle<-X_Hurdle[,gen_Hurdle_sample]
-    data_ZIP<-sim_data_nb[,gen_ZIP]
+    data_ZIP<-X_NB[,gen_ZIP]
     
     sim_data_melang<- cbind(data_NB, data_Hurdle, data_ZIP)
 
@@ -610,7 +609,7 @@ simulation_NB<-function(B, # Number of replication,
     
     ## Limma application
 
-    #d <- DGEList(sim_data_nb, group = metaData$groups)
+    #d <- DGEList(X_NB, group = metaData$groups)
     y <- voom(d, design, plot = FALSE)
     limma_fit <- lmFit(y, design)
     tmp <- contrasts.fit(limma_fit, coef = 2) 
@@ -627,7 +626,7 @@ simulation_NB<-function(B, # Number of replication,
     
     ## Model Dream
 
-    #d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
+    #d  <- DGEList(counts = X_NB, group = metaData$groups)
     #y_d <- calcNormFactors(d)
     
     # Specify parallel processing parameters
@@ -967,11 +966,11 @@ gplot1.1_des_edge
 
 ##=========================================##
 
-sim_data_nb<-sim_data_nb;
+X_NB<-X_NB;
 metaData<-data.frame(groups=groups)
 library(edgeR)
 # Préparation des données
-y <- DGEList(counts = sim_data_nb, group = metaData$groups)
+y <- DGEList(counts = X_NB, group = metaData$groups)
 y <- calcNormFactors(y)
 
 # Définition du design
