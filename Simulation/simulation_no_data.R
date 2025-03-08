@@ -1,17 +1,7 @@
 ## load the packages
 
-library(ape) ; library(vegan)
-library(limma)
-library("statmod")
-library(edgeR)
-library(ggplot2)
-library(Rcpp)
-library(devtools)
-library(metaSPARSim)
-library(cowplot)
-library(plyr)
-library(ggpubr)
-library(PRROC)
+library(ape) ; library(vegan) ; library(limma) ; library("statmod") ; library(edgeR) ; library(ggplot2) ; library(Rcpp) ; 
+library(devtools) ; library(metaSPARSim) ; library(cowplot) ; library(plyr) ; library(ggpubr) ; library(PRROC)
 
 ## Create the function of load the data
 
