@@ -5,8 +5,8 @@ pacman::p_load(ape, vegan, limma, statmod, edgeR, ggplot2, Rcpp, devtools, metaS
 
 ## Create the function of load the data
 
-## ## Create the function
-## Cette simule des donnees d'abondance X suivant plusieurs distribution discrète (ZIP, NB, etc.) et fixe des paramètres 
+## Create the function
+## Cette simule des donnees d'abondance X suivant plusieurs distribution discrète (ZIP, NB, etc.), calcul y et fixe des paramètres beta
 ## Input : 
 
 ## Output :
@@ -20,12 +20,15 @@ simulation_NB<-function(B, # Number of replication,
                         mu_nb, # Mean of Poisson et Gamma distributions
                         sigma, # Probability of zero
                         groups){
-  
-  ## Parameters of Poisson distribution
-  LAMBDA<-AUC<-matrix(0,nrow=B,ncol = 4)
+
+  ## Nombre de gènes significatif(tau=t)
   n0<-length(which(beta!=0)) # Number of significatif genes pour les gènes
 
   
+  ## Matrice des facteurs d'impact (IF)
+  LAMBDA<-AUC<-matrix(0,nrow=B,ncol = 4)
+
+   ## Parameters estimates
   ESTIMATION1<-ESTIMATION2<-ESTIMATION3<-ESTIMATION4<-
     PVALUE1<-PVALUE2<-PVALUE3<-PVALUE4<-
     LOGFC1<-LOGFC2<-LOGFC3<-LOGFC4<-matrix(0,ncol=B,nrow = n_taxa)
