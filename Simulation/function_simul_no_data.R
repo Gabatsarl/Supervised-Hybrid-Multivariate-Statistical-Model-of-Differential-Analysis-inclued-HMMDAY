@@ -177,37 +177,23 @@ simulation_NB<-function(B, # Number of replication,
 
     
     ## Model Dream
-
-    #d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
-    #y_d <- calcNormFactors(d)
-    
-    # Specify parallel processing parameters
-    # this is used implicitly by dream() to run in parallel
-    #param <- SnowParam(4, "SOCK", progressbar = TRUE)
     
     # estimate weights using linear mixed model of dream
     
-    
-    vobjDream <- voomWithDreamWeights(y_d, 
-                                      formula =~groups, 
-                                      data=metaData)
+    vobjDream <- voomWithDreamWeights(y_d, formula =~groups, data=metaData)
     
     # otherwise it uses the Satterthwaite approximation
-    fitmm <- dream(vobjDream, 
-                   form=~groups,
-                   data=metaData)
+    fitmm <- dream(vobjDream, form=~groups, data=metaData)
     fitmm <- eBayes(fitmm)
     
-    #
+    # Extracte result
     result<-topTable(fitmm, coef = 2, number = Inf)
     
     # Take the result
     pval_dream<-result$P.Value
     LAMBDA_Z[k,1]<-median(qchisq(1-pval_dream,1),na.rm = "TRUE")/qchisq(0.5,1)
     LOGFC_NB_Dream[,k]<-result$logFC
-    
-    #print("Deam1")
-    
+        
     ## DISTRIBUTION 2 :::: ----- Distribution de ""Hurdle""
     
     ## Generate the data presence/absence
@@ -219,13 +205,13 @@ simulation_NB<-function(B, # Number of replication,
     
     ## Generate the count of non-nuls
     lambda_mean<-lambda_estimates
-    sim_data_Hurdle <- matrix(0, nrow = n_samples, ncol = n_taxa)
+    X_Hurdle <- matrix(0, nrow = n_samples, ncol = n_taxa)
     for (j in 1:n_taxa) {
-      sim_data_Hurdle[, j] <- rpois(n_samples, lambda = lambda_mean) * 
+      X_Hurdle[, j] <- rpois(n_samples, lambda = lambda_mean) * 
         presence_absence_matrix[, j]
     }
     
-    m.D <- vegdist(sim_data_Hurdle, "manhattan") ; 
+    m.D <- vegdist(X_Hurdle, "manhattan") ; 
     result_GENERAL <- pcoa(m.D )
     
     # ================================================##
@@ -237,7 +223,7 @@ simulation_NB<-function(B, # Number of replication,
     
     ##===========Calculate Y===================## 
     
-    Xbeta<-sim_data_Hurdle%*%beta
+    Xbeta<-X_Hurdle%*%beta
     eps<-rnorm(n_samples,0,1)
     Y<-Xbeta+alpha*as.numeric(factor(groups))+eps
     data$Y<-as.numeric(Y)
@@ -250,7 +236,7 @@ simulation_NB<-function(B, # Number of replication,
     system.time(
       Three_beta_pval<-foreach( i= 1:n_taxa,.packages=c("limma")) %dopar% {
         #for(i in 1:n){
-        data$Xg<-log10(sim_data_Hurdle[,i]+1)
+        data$Xg<-log10(X_Hurdle[,i]+1)
         design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
         
         ## Fitting the model 
@@ -290,23 +276,13 @@ simulation_NB<-function(B, # Number of replication,
     pval_Hurdle<-PVALUE2[,k]
     LAMBDA[k,2]<-median(qchisq(1-pval_Hurdle,1))/qchisq(0.5,1)
     
-    ## Calcul for AUC for this courbe
-    #labels <- c(rep(1,n_taxa-n0),rep())
-    
-    proc<-roc.curve(scores.class0 = pval_Hurdle[1:(n0)], scores.class1 = 
-                      pval_Hurdle[(n0+1):n_taxa],curve = TRUE)
-    #  weights.class0 = pval_pois[], weights.class1 = 1-pval_pois, curve = TRUE)
-    AUC[k,2]<-proc$auc
-    
-    #print("HMMDAY")
-    #print(any(sim_data_Hurdle < 0))
-    
-    ##=======================================
+    ##=======================================================================##
     #
     #
     # Application de edge
     # Préparation des données
-    d <- DGEList(counts = t(sim_data_Hurdle), group = metaData$groups)
+    #========================================================================##
+    d <- DGEList(counts = t(X_Hurdle), group = metaData$groups)
     y_d <- calcNormFactors(d)
     
     # Définition du design
@@ -323,7 +299,7 @@ simulation_NB<-function(B, # Number of replication,
     LAMBDA_X[k,2]<-median(qchisq(1-pval,1),na.rm = "TRUE")/qchisq(0.5,1)
     LOGFC_Hurdle_EDGE[,k]<-result$table$logFC
     
-    ## Limma application
+    ## Model : "Limma" application
     y <- voom(d, design, plot = FALSE)
     limma_fit <- lmFit(y, design)
     tmp <- contrasts.fit(limma_fit, coef = 2) 
@@ -336,16 +312,6 @@ simulation_NB<-function(B, # Number of replication,
     pval<-result$P.Val
     LAMBDA_Y[k,2]<-median(qchisq(1-pval,1),na.rm = "TRUE")/qchisq(0.5,1)
     LOGFC_Hurdle_Limma[,k]<-result$logFC
-    
-    #print("Limma2")
-    
-    ## Model Dream
-    #d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
-    #y_d <- calcNormFactors(d)
-    
-    # Specify parallel processing parameters
-    # this is used implicitly by dream() to run in parallel
-    #param <- SnowParam(4, "SOCK", progressbar = TRUE)
     
     # estimate weights using linear mixed model of dream
     
@@ -368,24 +334,20 @@ simulation_NB<-function(B, # Number of replication,
     LAMBDA_Z[k,2]<-median(qchisq(1-pval_dream,1),na.rm = "TRUE")/qchisq(0.5,1)
     LOGFC_Hurdle_Dream[,k]<-result$logFC    
     
-    #print("Dream2")
-    
-    
-    
     ## Zero-Inflated Poisson (ZIP)
     #pi_inflate <- 0.3
     #n <-n_samples*n_taxa
     # Créer la matrice de microbiome simulée
-    sim_data_ZIP <- matrix(0, nrow = n_taxa, ncol = n_samples)
+    X_ZIP <- matrix(0, nrow = n_taxa, ncol = n_samples)
     
     ## Remplir la matrice avec les données ZIP
     
     for (i in 1:n_taxa) {
-      sim_data_ZIP[i, ] <- rZIP(n_samples, mu =mu_nb[i] , 
+      X_ZIP[i, ] <- rZIP(n_samples, mu =mu_nb[i] , 
                                 sigma = 0.3) # sum(gen_data[i,] < 20) / n_samplesrpois(1, lambda_est)
     }
     
-    m.D <- vegdist(t(sim_data_ZIP), "manhattan") ; 
+    m.D <- vegdist(t(X_ZIP), "manhattan") ; 
     result_GENERAL <- pcoa(m.D)
     
     ##=================================================##
@@ -395,7 +357,7 @@ simulation_NB<-function(B, # Number of replication,
     
     ##===========Calculate Y===================## 
     
-    Xbeta<-t(sim_data_ZIP)%*%beta
+    Xbeta<-t(X_ZIP)%*%beta
     eps<-rnorm(n_samples,0,1)
     Y<-Xbeta+alpha*as.numeric(factor(groups))+eps
     data$Y<-as.numeric(Y)
@@ -408,7 +370,7 @@ simulation_NB<-function(B, # Number of replication,
     system.time(
       Three_beta_pval<-foreach( i= 1:n_taxa,.packages=c("limma")) %dopar% {
         #for(i in 1:n){
-        data$Xg<-log10(sim_data_ZIP[i,]+1)
+        data$Xg<-log10(X_ZIP[i,]+1)
         #print(dim(data))
         design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
         #print(colnames(design))
@@ -460,7 +422,7 @@ simulation_NB<-function(B, # Number of replication,
     #
     # Application de edge
     # Préparation des données
-    d <- DGEList(counts = sim_data_ZIP, group = metaData$groups)
+    d <- DGEList(counts = X_ZIP, group = metaData$groups)
     y_d <- calcNormFactors(d)
     
     # Définition du design
@@ -536,8 +498,8 @@ simulation_NB<-function(B, # Number of replication,
     ##
     ## DIstribution de melange "NB", "Hurdle" et "ZIP"
     sim_data_nb<-t(sim_data_nb)
-    sim_data_Hurdle<-sim_data_Hurdle
-    sim_data_ZIP<-t(sim_data_ZIP)
+    X_Hurdle<-X_Hurdle
+    X_ZIP<-t(X_ZIP)
     
     indice_gene<-1:n_taxa
     gen_nb<-sample(indice_gene, 1000) # les genes tirés dans la premieres matrices avec Distribution NB
@@ -549,7 +511,7 @@ simulation_NB<-function(B, # Number of replication,
     gen_ZIP<-indice_gene[-c(gen_nb,gen_Hurdle_sample)]
 
     data_NB<-sim_data_nb[,gen_nb]
-    data_Hurdle<-sim_data_Hurdle[,gen_Hurdle_sample]
+    data_Hurdle<-X_Hurdle[,gen_Hurdle_sample]
     data_ZIP<-sim_data_nb[,gen_ZIP]
     
     sim_data_melang<- cbind(data_NB, data_Hurdle, data_ZIP)
