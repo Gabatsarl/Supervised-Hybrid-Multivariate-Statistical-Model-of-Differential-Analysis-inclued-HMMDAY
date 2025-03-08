@@ -1,11 +1,15 @@
-## load the packages
+## Load the packages
 
-library(ape) ; library(vegan) ;library(limma) ;library("statmod") ; library(edgeR) ; library(ggplot2) ; library(Rcpp) ; library(devtools) ; library(metaSPARSim)
-library(cowplot) ; library(plyr) ; library(ggpubr) ; library(PRROC) ; library(gamlss.dist) ; library(doParallel) ; library(reshape2) ; library(MCMCpack)
-library(variancePartition) ; library(BiocParallel)
-
+pacman::p_load(ape, vegan, limma, statmod, edgeR, ggplot2, Rcpp, devtools, metaSPARSim, cowplot, plyr, ggpubr, PRROC, gamlss.dist, 
+               doParallel, reshape2, MCMCpack, variancePartition, BiocParallel, tidyr, dplyr)
 
 ## Create the function of load the data
+
+## ## Create the function
+## Cette simule des donnees d'abondance X suivant plusieurs distribution discrète (ZIP, NB, etc.) et fixe des paramètres 
+## Input : 
+
+## Output :
 
 simulation_NB<-function(B, # Number of replication,
                         beta, alpha, # parameters of modelling 
@@ -122,13 +126,6 @@ simulation_NB<-function(B, # Number of replication,
     
     pval_NB<-PVALUE1[,k]
     LAMBDA[k,1]<-median(qchisq(1-pval_NB,1),na.rm = "TRUE")/qchisq(0.5,1)
-    ## Calcul for AUC for this courbe
-    #labels <- c(rep(1,n_taxa-n0),rep())
-    
-    proc<-roc.curve(scores.class0 = pval_NB[1:(n0)], scores.class1 = 
-                      pval_NB[(n0+1):n_taxa],curve = TRUE)
-    #  weights.class0 = pval_pois[], weights.class1 = 1-pval_pois, curve = TRUE)
-    AUC[k,1]<-proc$auc
     
     ##=======================================
     #
@@ -136,7 +133,6 @@ simulation_NB<-function(B, # Number of replication,
     # Application de  model "edge"
     #sim_data_nb<-sim_data_nb;
     metaData<-data.frame(groups=groups)
-    library(edgeR)
     # Préparation des données
     d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
     y_d <- calcNormFactors(d)
@@ -161,7 +157,6 @@ simulation_NB<-function(B, # Number of replication,
     ##
     ##===============================##
     
-    library(limma)
 
     #d <- DGEList(sim_data_nb, group = metaData$groups)
     y <- voom(d, design, plot = FALSE)
@@ -179,8 +174,7 @@ simulation_NB<-function(B, # Number of replication,
 
     
     ## Model Dream
-    library(variancePartition)
-    library(BiocParallel)
+
     #d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
     #y_d <- calcNormFactors(d)
     
@@ -325,13 +319,8 @@ simulation_NB<-function(B, # Number of replication,
     pval<-result$table$PValue
     LAMBDA_X[k,2]<-median(qchisq(1-pval,1),na.rm = "TRUE")/qchisq(0.5,1)
     LOGFC_Hurdle_EDGE[,k]<-result$table$logFC
-
-    #print("Edge2")
     
     ## Limma application
-    library(limma)
-    
-    #d <- DGEList(sim_data_nb, group = metaData$groups)
     y <- voom(d, design, plot = FALSE)
     limma_fit <- lmFit(y, design)
     tmp <- contrasts.fit(limma_fit, coef = 2) 
@@ -348,8 +337,6 @@ simulation_NB<-function(B, # Number of replication,
     #print("Limma2")
     
     ## Model Dream
-    library(variancePartition)
-    library(BiocParallel)
     #d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
     #y_d <- calcNormFactors(d)
     
@@ -489,8 +476,6 @@ simulation_NB<-function(B, # Number of replication,
 
     
     ## Limma application ==================================
-    ##
-    library(limma)
     
     #d <- DGEList(sim_data_nb, group = metaData$groups)
     y <- voom(d, design, plot = FALSE)
@@ -508,8 +493,7 @@ simulation_NB<-function(B, # Number of replication,
     
     
     ## Model Dream
-    library(variancePartition)
-    library(BiocParallel)
+
     #d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
     #y_d <- calcNormFactors(d)
     
@@ -660,8 +644,7 @@ simulation_NB<-function(B, # Number of replication,
     LOGFC_Mel_EDGE[,k]<-result$table$logFC
     
     ## Limma application
-    library(limma)
-    
+
     #d <- DGEList(sim_data_nb, group = metaData$groups)
     y <- voom(d, design, plot = FALSE)
     limma_fit <- lmFit(y, design)
@@ -678,8 +661,7 @@ simulation_NB<-function(B, # Number of replication,
     
     
     ## Model Dream
-    library(variancePartition)
-    library(BiocParallel)
+
     #d  <- DGEList(counts = sim_data_nb, group = metaData$groups)
     #y_d <- calcNormFactors(d)
     
@@ -883,10 +865,6 @@ gplot2
 ## QQPlot de quelques valeurs.
 
 ####qqplot comparison---------------
-library(cowplot)
-library(plyr)
-library(ggpubr)
-
 
 myqqplot2 = function(pval){
   obs = -log10(sort(pval,decreasing=F))
@@ -1004,8 +982,7 @@ pval[,6]<-RESULT$PVALUE1[,ind]
 ##
 ##====================== Tracer les fig ==========================##
 
-library(tidyr)
-library(dplyr)
+
 data_qqplot<-as.matrix(pval)
 rownames(data_qqplot)<-NULL
 
@@ -1069,12 +1046,8 @@ RMSE[,6]<-colMeans((RESULT$ESTIMATION6-beta)^2,na.rm = TRUE)
 ##
 ##====================== Tracer les fig ==========================##
 
-library(tidyr)
-library(dplyr)
-library(reshape2)
-library(ggplot2)
-library(cowplot)
-library(ggpubr)
+
+
 data_long <- melt(RMSE)
 
 # Tracer le boxplot avec ggplot2
