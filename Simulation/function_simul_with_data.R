@@ -409,3 +409,7 @@ volcanoplot <- function(x, y, tit,col) {
 
 
 
+
+## Using data pour obtenir les résultats
+
+
