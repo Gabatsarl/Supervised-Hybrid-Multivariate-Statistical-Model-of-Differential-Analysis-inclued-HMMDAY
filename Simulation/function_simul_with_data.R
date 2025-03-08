@@ -12,14 +12,14 @@ pacman::p_load(ape, vegan, limma, statmod, edgeR, ggplot2, Rcpp, devtools, metaS
 ## Créer des données simulées
 
 Simul_with_data<-function(B, #Nombre de replication
-                          data, # contenant le "group" et "Y"
+                          data, # Matrix de "n ligne et 2 colonnes" contenant la "Condition=group" et "Y"
                           gen_data # contient les abondances 
 
                           ){
   n_taxa<-nrow(gen_data)
   PVAL<-matrix(0,nrow=n_taxa,ncol = B)
-  LAMBDA<-AUC<-matrix(0,nrow=B,ncol = 6)
-  colnames(LAMBDA)<-colnames(AUC)<-c("Poisson","NB","Hurdle","ZIP","DM","BM")
+  LAMBDA<-matrix(0,nrow=B,ncol = 6)
+  colnames(LAMBDA)<-c("Poisson","NB","Hurdle","ZIP","DM","BM")
   
   ESTIMATION1<-ESTIMATION2<-ESTIMATION3<-ESTIMATION4<-ESTIMATION5<-ESTIMATION6<-
     PVALUE1<-PVALUE2<-PVALUE3<-PVALUE4<-PVALUE5<-PVALUE6<-
@@ -71,9 +71,6 @@ Simul_with_data<-function(B, #Nombre de replication
       out_ebayes <- eBayes(limma_fit)
       
       ## pcoa
-      
-      #if(inherits(limma_fit, "try-error")){ cat("NULL") }
-      #else {
       para <- limma_fit$coefficients ; pval <- out_ebayes$p.value ;
       ESTIMATION1[i,k] <- limma_fit$coefficients[2] ; 
       PVALUE1[i,k] <- pval[2] ; 
@@ -82,18 +79,8 @@ Simul_with_data<-function(B, #Nombre de replication
       
     }
     
-    pval_pois<-PVALUE1[,k]
-    LAMBDA[k,1]<-median(qchisq(1-pval_pois,1),na.rm = "TRUE")/qchisq(0.5,1)
+    LAMBDA[k,1]<-median(qchisq(1-PVALUE1[,k],1),na.rm = "TRUE")/qchisq(0.5,1)
 
-    ## Calcul for AUC for this courbe
-    #labels <- c(rep(1,n0),rep(0,n_taxa-n0))
-    #proc<-roc.curve(scores.class0 = pval_pois, weights.class0 = labels)
-    
-    #proc<-roc.curve(scores.class0 = pval_pois[1:(n0)], scores.class1 = 
-    #                 pval_pois[(n0+1):n_taxa],curve = TRUE)
-    #  weights.class0 = pval_pois[], weights.class1 = 1-pval_pois, curve = TRUE)
-    #AUC[k,1]<-proc$auc
-    ## Distribution binomiale negative
     
     ## Charger les donnees deja disponibel
     gen_data2 <- as.matrix(t(gen_data))  # Assurez-vous que vos données sont sous forme de matrice
@@ -119,11 +106,10 @@ Simul_with_data<-function(B, #Nombre de replication
       return(counts)
     }
     
-    sim_data_nb <- generate_nb_counts(nrow(gen_data), ncol(gen_data), 
-                                      size_estimates, mu_estimates)
+    X_NB <- generate_nb_counts(nrow(gen_data), ncol(gen_data),  size_estimates, mu_estimates)
     
     
-    m.D <- vegdist(t(sim_data_nb), "manhattan",na.rm = TRUE) ; 
+    m.D <- vegdist(t(X_NB), "manhattan",na.rm = TRUE) ; 
     result_GENERAL <- pcoa(m.D )
     
     # ================================================##
@@ -134,7 +120,7 @@ Simul_with_data<-function(B, #Nombre de replication
     ## Design of the model
     
     for(i in 1:n_taxa){
-      data$Xg <- log10(sim_data_nb[i,] + 1)
+      data$Xg <- log10(X_NB[i,] + 1)
       design <- model.matrix(~Xg + groups + PCoA1 + PCoA2, data)
       
       # Assurez-vous que les dimensions correspondent avant de procéder
@@ -150,12 +136,8 @@ Simul_with_data<-function(B, #Nombre de replication
       
     }
     
-    
-    pval_NB<-PVALUE2[,k]
-    LAMBDA[k,2]<-median(qchisq(1-pval_NB,1),na.rm = "TRUE")/qchisq(0.5,1)
+    LAMBDA[k,2]<-median(qchisq(1-PVALUE2[,k],1),na.rm = "TRUE")/qchisq(0.5,1)
 
-    
-    
     ## DISTRIBUTION 3 ::::------ Distribution de Hurdle
     
     ## Générer les données de présence/absence
@@ -167,12 +149,12 @@ Simul_with_data<-function(B, #Nombre de replication
     
     ## Générer les comptages pour les valeurs non-nulles
     lambda_mean<-lambda_estimates
-    sim_data_Hurdle <- matrix(0, nrow = n_samples, ncol = n_taxa)
+    X_Hurdle <- matrix(0, nrow = n_samples, ncol = n_taxa)
     for (j in 1:n_taxa) {
-      sim_data_Hurdle[, j] <- rpois(n_samples, lambda = lambda_mean) * 
+      X_Hurdle[, j] <- rpois(n_samples, lambda = lambda_mean) * 
         presence_absence_matrix[, j]
     }
-    m.D <- vegdist(sim_data_Hurdle, "manhattan",na.rm = TRUE) ; 
+    m.D <- vegdist(X_Hurdle, "manhattan",na.rm = TRUE) ; 
     result_GENERAL <- pcoa(m.D )
     
     ## ================================================##
@@ -183,7 +165,7 @@ Simul_with_data<-function(B, #Nombre de replication
     ## Design of the model
     for(i in 1:n_taxa){
       
-      data$Xg<-log10(sim_data_Hurdle[,i]+1)
+      data$Xg<-log10(X_Hurdle[,i]+1)
       design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
       
       ## Fitting the model 
@@ -192,9 +174,6 @@ Simul_with_data<-function(B, #Nombre de replication
       out_ebayes <- eBayes(limma_fit)
       
       ## pcoa
-      
-      #if(inherits(limma_fit, "try-error")){ cat("NULL") }
-      #else {
       para <- limma_fit$coefficients ; pval <- out_ebayes$p.value ;
       
       ESTIMATION3[i,k] <- limma_fit$coefficients[2] ; 
@@ -204,40 +183,34 @@ Simul_with_data<-function(B, #Nombre de replication
       
     }
     
-    pval_Hurdle<-PVALUE3[,k]
-    LAMBDA[k,3]<-median(qchisq(1-pval_Hurdle,1),na.rm = TRUE)/qchisq(0.5,1)
+    LAMBDA[k,3]<-median(qchisq(1-PVALUE3[,k],1),na.rm = TRUE)/qchisq(0.5,1)
 
     
-    ## Zero-Inflated Poisson (ZIP)
+    ## Model : Zero-Inflated Poisson (ZIP)
     
-    ## Exemple de génération de données ZIP
+    ## Génération de données ZIP
     lambda_est <- mean(gen_data[gen_data > 0])  # Moyenne des comptages non-nuls
 
-    #pi_inflate <- 0.3
-    #n <-n_samples*n_taxa
     # Créer la matrice de microbiome simulée
-    sim_data_ZIP <- matrix(0, nrow = n_taxa, ncol = n_samples)
+    X_ZIP <- matrix(0, nrow = n_taxa, ncol = n_samples)
 
     ## Remplir la matrice avec les données ZIP
     
     for (i in 1:n_taxa) {
       sigma<-sd(gen_data[i,],na.rm = TRUE)
       if(sigma==0){
-      sim_data_ZIP[i, ] <- rZIP(n_samples, mu =mean(gen_data[i,])  , 
+      X_ZIP[i, ] <- rZIP(n_samples, mu =mean(gen_data[i,])  , 
                                 sigma =)} # sum(gen_data[i,] < 20) / n_samplesrpois(1, lambda_est)
       else {
-        sim_data_ZIP[i, ] <- rZIP(n_samples, mu =mean(gen_data[i,])  , 
+        X_ZIP[i, ] <- rZIP(n_samples, mu =mean(gen_data[i,])  , 
                                   sigma =0.001)} # sum(gen_data[i,] < 20) / n_samplesrpois(1, lambda_est)
     
       }
     
     
-    ## Génération de zéros supplémentaires
-    #zero_inflated <- rbinom(n, 1, pi_inflate)
+    ## PCoA from matrix X
     
-    #sim_data_ZIP<-rpois(n, lambda_estimates) * (1 - zero_inflated)
-    
-    m.D <- vegdist(t(sim_data_ZIP), "manhattan",na.rm = TRUE) ; 
+    m.D <- vegdist(t(X_ZIP), "manhattan",na.rm = TRUE) ; 
     result_GENERAL <- pcoa(m.D )
     
     ## ================================================##
@@ -248,7 +221,7 @@ Simul_with_data<-function(B, #Nombre de replication
     ## Design of the model
     for(i in 1:n_taxa){
       
-      data$Xg<-log10(sim_data_ZIP[i,]+1)
+      data$Xg<-log10(X_ZIP[i,]+1)
       design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
       
       ## Fitting the model 
@@ -257,9 +230,6 @@ Simul_with_data<-function(B, #Nombre de replication
       out_ebayes <- eBayes(limma_fit)
       
       ## pcoa
-      
-      #if(inherits(limma_fit, "try-error")){ cat("NULL") }
-      #else {
       para <- limma_fit$coefficients ; pval <- out_ebayes$p.value ;
       
       ESTIMATION4[i,k] <- limma_fit$coefficients[2] ; 
@@ -268,25 +238,25 @@ Simul_with_data<-function(B, #Nombre de replication
       
       
     }
-    pval_ZIP<-PVALUE4[,k]
-    LAMBDA[k,4]<-median(qchisq(1-pval_ZIP,1),na.rm = TRUE)/qchisq(0.5,1)
+    LAMBDA[k,4]<-median(qchisq(1-PVALUE4[,k],1),na.rm = TRUE)/qchisq(0.5,1)
 
     
     ## Direchelot multinomial
-    # Paramètres alpha pour la distribution Dirichlet
     alpha <- rep(1, n_taxa)  # On peut ajuster ces valeurs selon le cas
     
     # Générer les proportions Dirichlet
     dirichlet_proportions <- rdirichlet(n_samples, alpha)
     
     # Simuler les comptages Multinomiaux à partir des proportions Dirichlet
-    sim_data_DM <- matrix(0, nrow = n_samples, ncol = n_taxa)
+    X_DM <- matrix(0, nrow = n_samples, ncol = n_taxa)
     
     for (i in 1:n_samples) {
-      sim_data_DM[i, ] <- rmultinom(1, size = sum(gen_data[, i]),
+      X_DM[i, ] <- rmultinom(1, size = sum(gen_data[, i]),
                                     prob = dirichlet_proportions[i, ])
     }
-    m.D <- vegdist(sim_data_DM, "manhattan",na.rm = TRUE) ; 
+
+    ## PCoA from matrix X
+    m.D <- vegdist(X_DM, "manhattan",na.rm = TRUE) ; 
     result_GENERAL <- pcoa(m.D )
     
     # ================================================##
@@ -297,7 +267,7 @@ Simul_with_data<-function(B, #Nombre de replication
     ## Design of the model
     for(i in 1:n_taxa){
       
-      data$Xg<-log10(sim_data_DM[,i]+1)
+      data$Xg<-log10(X_DM[,i]+1)
       design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
       
       ## Fitting the model 
@@ -305,10 +275,8 @@ Simul_with_data<-function(B, #Nombre de replication
       limma_fit  <- lmFit(data$Y, design)
       out_ebayes <- eBayes(limma_fit)
       
-      ## pcoa
+      ## Result
       
-      #if(inherits(limma_fit, "try-error")){ cat("NULL") }
-      #else {
       para <- limma_fit$coefficients ; pval <- out_ebayes$p.value ;
       
       ESTIMATION5[i,k] <- limma_fit$coefficients[2] ; 
@@ -329,7 +297,7 @@ Simul_with_data<-function(B, #Nombre de replication
     beta <- runif(n_taxa, 0, 1)    # Paramètres beta
     
     ## Matrice pour stocker les données simulées
-    sim_data_BB <- matrix(0, nrow = n_samples, ncol = n_taxa)
+    X_BB <- matrix(0, nrow = n_samples, ncol = n_taxa)
     
     ## Simuler les données bêta-binomiales
     #size<-colSums(gen_data)
@@ -342,11 +310,12 @@ Simul_with_data<-function(B, #Nombre de replication
       proportions <- proportions / sum(proportions) * size_i
       
       ## Générer des comptages binomiaux
-      sim_data_BB[i, ] <-rmultinom(1, size = sum(gen_data[, i]),
+      X_BB[i, ] <-rmultinom(1, size = sum(gen_data[, i]),
                                    prob = proportions) #rbinom(n_taxa, size = sum(gen_data[, i]), prob = proportions)
     }
-    
-    m.D <- vegdist(sim_data_BB, "manhattan",na.rm = TRUE) ; 
+    ## PCoA from matrix X
+
+    m.D <- vegdist(X_BB, "manhattan",na.rm = TRUE) ; 
     result_GENERAL <- pcoa(m.D )
     
     # ================================================##
@@ -357,7 +326,7 @@ Simul_with_data<-function(B, #Nombre de replication
     ## Design of the model
     for(i in 1:n_taxa){
       
-      data$Xg<-log10(sim_data_BB[,i]+1)
+      data$Xg<-log10(X_BB[,i]+1)
       design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
       
       ## Fitting the model 
@@ -366,29 +335,19 @@ Simul_with_data<-function(B, #Nombre de replication
       out_ebayes <- eBayes(limma_fit)
       
       ## pcoa
-      
-      #if(inherits(limma_fit, "try-error")){ cat("NULL") }
-      #else {
       para <- limma_fit$coefficients ; pval <- out_ebayes$p.value ;
-      
-      #print(c(para[2],pval[2],topTable(out_ebayes,coef=2)$logFC))
-      
+          
       ESTIMATION6[i,k] <- limma_fit$coefficients[2] ; 
       PVALUE6[i,k] <- pval[2] ; 
       LOGFC6[i,k] <- out_ebayes$p.value[2]
       
       
     }
-    
-    pval_BB<-PVALUE6[,k]
-    LAMBDA[k,6]<-median(qchisq(1-pval_BB,1),na.rm = "TRUE")/qchisq(0.5,1)
-    #print("BM")
-    
+
+    LAMBDA[k,6]<-median(qchisq(1-PVALUE6[,k],1),na.rm = "TRUE")/qchisq(0.5,1)    
     print(k)
     
   }
-  
-  
   
   return(list(LAMBDA=LAMBDA,
               ESTIMATION1=ESTIMATION1,ESTIMATION2=ESTIMATION2,ESTIMATION3=ESTIMATION3,
@@ -399,6 +358,7 @@ Simul_with_data<-function(B, #Nombre de replication
 }
 
 ## Qqplot
+
 myqqplot2 = function(pval,seuil){
   obs = -log10(sort(pval, decreasing = FALSE))
   expect = -log10(1:length(obs) / length(obs))
@@ -423,8 +383,6 @@ myqqplot2 = function(pval,seuil){
 
   
 }
-
-
 
 ## Volcanoplot
 
