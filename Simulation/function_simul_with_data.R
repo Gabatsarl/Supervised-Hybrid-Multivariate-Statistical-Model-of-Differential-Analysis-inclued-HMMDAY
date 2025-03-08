@@ -385,7 +385,7 @@ Simul_with_data<-function(B, #Nombre de replication
   
   
   
-  return(list(LAMBDA=LAMBDA,AUC=AUC,
+  return(list(LAMBDA=LAMBDA,
               ESTIMATION1=ESTIMATION1,ESTIMATION2=ESTIMATION2,ESTIMATION3=ESTIMATION3,
               ESTIMATION4=ESTIMATION4, ESTIMATION5=ESTIMATION5,ESTIMATION6=ESTIMATION6,
               PVALUE1=PVALUE1,PVALUE2=PVALUE2, PVALUE3=PVALUE3, PVALUE4=PVALUE4, PVALUE5=PVALUE5, PVALUE6=PVALUE6,
@@ -421,8 +421,6 @@ myqqplot2 = function(pval,seuil){
 
 
 
-
-
 ## Volcanoplot
 
 volcanoplot <- function(x, y, tit,col) {
@@ -445,7 +443,4 @@ volcanoplot <- function(x, y, tit,col) {
 }
 
 
-
-## logFC1<-logFC1;
-## v1<-volcanoplot(x=logFC1,y=-log10(pval),tit="",col="#FFA500")
 
