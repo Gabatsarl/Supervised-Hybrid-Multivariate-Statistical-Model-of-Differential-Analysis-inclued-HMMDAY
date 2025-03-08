@@ -513,9 +513,9 @@ simulation_NB<-function(B, # Number of replication,
     data_Hurdle<-X_Hurdle[,gen_Hurdle_sample]
     data_ZIP<-X_NB[,gen_ZIP]
     
-    sim_data_melang<- cbind(data_NB, data_Hurdle, data_ZIP)
+    X_NB_ZIP_Hurdle_Pois<- cbind(data_NB, data_Hurdle, data_ZIP)
 
-    m.D <- vegdist(sim_data_melang, "manhattan") ; 
+    m.D <- vegdist(X_NB_ZIP_Hurdle_Pois, "manhattan") ; 
     result_GENERAL <- pcoa(m.D)
     
     ##=================================================##
@@ -525,11 +525,11 @@ simulation_NB<-function(B, # Number of replication,
     
     ##===========Calculate Y===================## 
     
-    Xbeta<-sim_data_melang%*%beta
+    Xbeta<-X_NB_ZIP_Hurdle_Pois%*%beta
     eps<-rnorm(n_samples,0,1)
     Y<-Xbeta+alpha*as.numeric(factor(groups))+eps
     data$Y<-as.numeric(Y)
-    sim_data_melang<-t(sim_data_melang)
+    X_NB_ZIP_Hurdle_Pois<-t(X_NB_ZIP_Hurdle_Pois)
     ## Design of the model
     
     cl <- detectCores() %>% -1 %>% makeCluster ### N'utiliser pas tous les coeurs (-1)
@@ -538,7 +538,7 @@ simulation_NB<-function(B, # Number of replication,
     system.time(
       Three_beta_pval<-foreach( i= 1:n_taxa,.packages=c("limma")) %dopar% {
         #for(i in 1:n){
-        data$Xg<-log10(sim_data_melang[i,]+1)
+        data$Xg<-log10(X_NB_ZIP_Hurdle_Pois[i,]+1)
         #print(dim(data))
         design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
         #print(colnames(design))
@@ -576,21 +576,14 @@ simulation_NB<-function(B, # Number of replication,
       
     }
     
-    pval_melang<-PVALUE4[,k]
-    LAMBDA[k,4]<-median(qchisq(1-pval_melang,1),na.rm = "TRUE")/qchisq(0.5,1)
-    ## Calcul for AUC for this courbe
-    #labels <- c(rep(1,n_taxa-n0),rep())
-    
-    proc<-roc.curve(scores.class0 = pval_melang[1:(n0)], scores.class1 = 
-                      pval_melang[(n0+1):n_taxa],curve = TRUE)
-    AUC[k,4]<-proc$auc
+    LAMBDA[k,4]<-median(qchisq(1-PVALUE4[,k],1),na.rm = "TRUE")/qchisq(0.5,1)
     
     ##=======================================
     #
     #
     # Application de edge
     # Préparation des données
-    d <- DGEList(counts = sim_data_melang, group = metaData$groups)
+    d <- DGEList(counts = X_NB_ZIP_Hurdle_Pois, group = metaData$groups)
     y_d <- calcNormFactors(d)
     
     # Définition du design
@@ -603,8 +596,7 @@ simulation_NB<-function(B, # Number of replication,
     
     ## take the FDR
     
-    pval<-result$table$PValue
-    LAMBDA_X[k,4]<-median(qchisq(1-pval,1),na.rm = "TRUE")/qchisq(0.5,1)
+    LAMBDA_X[k,4]<-median(qchisq(1-result$table$PValue,1),na.rm = "TRUE")/qchisq(0.5,1)
     LOGFC_Mel_EDGE[,k]<-result$table$logFC
     
     ## Limma application
@@ -625,15 +617,8 @@ simulation_NB<-function(B, # Number of replication,
     
     
     ## Model Dream
-
-    #d  <- DGEList(counts = X_NB, group = metaData$groups)
-    #y_d <- calcNormFactors(d)
     
-    # Specify parallel processing parameters
-    # this is used implicitly by dream() to run in parallel
-    #param <- SnowParam(4, "SOCK", progressbar = TRUE)
-    
-    # estimate weights using linear mixed model of dream
+    ## estimate weights using linear mixed model of dream
     
     
     vobjDream <- voomWithDreamWeights(y_d, 
@@ -641,22 +626,15 @@ simulation_NB<-function(B, # Number of replication,
                                       data=metaData)
     
     # otherwise it uses the Satterthwaite approximation
-    fitmm <- dream(vobjDream, 
-                   form=~groups,
-                   data=metaData)
+    fitmm <- dream(vobjDream, form=~groups, data=metaData)
     fitmm <- eBayes(fitmm)
     
-    #
+    #------------------------------------------------
     result<-topTable(fitmm, coef = 2, number = Inf)
     
     # Take the result
-    pval_dream<-result$P.Value
-    LAMBDA_Z[k,4]<-median(qchisq(1-pval_dream,1),na.rm = "TRUE")/qchisq(0.5,1)
+    LAMBDA_Z[k,4]<-median(qchisq(1-result$P.Value,1),na.rm = "TRUE")/qchisq(0.5,1)
     LOGFC_Mel_Dream[,k]<-result$logFC    
-    
-    #print("Deam4")
-    
-    
     
     print(k)
   }
@@ -670,6 +648,7 @@ simulation_NB<-function(B, # Number of replication,
               ESTIMATION4=ESTIMATION4,
               PVALUE1=PVALUE1,PVALUE2=PVALUE2, PVALUE3=PVALUE3, PVALUE4=PVALUE4,
               LOGFC1=LOGFC1,LOGFC2=LOGFC2,LOGFC3=LOGFC3,LOGFC4=LOGFC4,
+              
               ##Ajouter les resultats du model Edge
               LAMBDA_X=LAMBDA_X, LAMBDA_Y=LAMBDA_Y, LAMBDA_Z=LAMBDA_Z,
               LOGFC_NB_EDGE=LOGFC_NB_EDGE,LOGFC_Hurdle_EDGE=LOGFC_Hurdle_EDGE,
@@ -713,122 +692,9 @@ RESULT<-simulation_NB(B=300, # nombre de simulation,
                       groups=groups)
 
 
-save(list = ls(), file ="/Users/fatimaakpo/Desktop/Simulation-melange/simul_no_data_Small_Scenario-melange1.1.RData")
 
-#boxplot(RESULT$LAMBDA[,1])    
+## QQPlot function
 
-
-
-## Model HMMDAY
-
-LAMBDA_X<-RESULT$LAMBDA_X
-data_long <- melt(LAMBDA_X)
-
-# Tracer le boxplot avec ggplot2
-
-gplot1.1_X <- ggplot(data_long, aes(x = Var2, y = value, fill = Var2)) + 
-  geom_boxplot(outlier.shape = NA) +
-  labs(title = expression("" * tau * " = 0.01, " * n/p * " = 1%"), 
-       x = "", 
-       y = "Impact Factor") +
-  theme_pubr() +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "red", lwd = 1) +
-  scale_fill_discrete(guide = "none") +
-  theme(plot.title = element_text(hjust = 0.5)) +  # Centrer le titre
-  coord_cartesian(ylim = c(0, 1.8))  # Fixer les limites de l'axe y
-
-
-gplot1.1_X
-
-
-ggsave("/Users/fatimaakpo/Desktop/Simulation-melange/simul1_nodata_1.1_edge.pdf",plot=gplot1.1_X,
-       width = 4.2, height = 3.2, units = "in", dpi = 300,bg = "white")
-
-# Tracer le boxplot avec ggplot2 "Limma"
-LAMBDA_Y<-RESULT$LAMBDA_Y
-data_long <- melt(LAMBDA_Y)
-
-gplot1.1_Y <- ggplot(data_long, aes(x = Var2, y = value, fill = Var2)) + 
-  geom_boxplot(outlier.shape = NA) +
-  labs(title = expression("" * tau * " = 0.01, " * n/p * " = 1%"), 
-       x = "", 
-       y = "Impact Factor") +
-  theme_pubr() +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "red", lwd = 1) +
-  scale_fill_discrete(guide = "none") +
-  theme(plot.title = element_text(hjust = 0.5)) +  # Centrer le titre
-  coord_cartesian(ylim = c(0, 1.8))  # Fixer les limites de l'axe y
-
-
-gplot1.1_Y
-
-
-ggsave("/Users/fatimaakpo/Desktop/Simulation-melange/simul1_nodata_1.1_edge.pdf",plot=gplot1.1_Y,
-       width = 4.2, height = 3.2, units = "in", dpi = 300,bg = "white")
-
-
-# Tracer le boxplot avec ggplot2
-LAMBDA_Z<-RESULT$LAMBDA_Z
-data_long <- melt(LAMBDA_Z)
-
-gplot1.1_Z <- ggplot(data_long, aes(x = Var2, y = value, fill = Var2)) + 
-  geom_boxplot(outlier.shape = NA) +
-  labs(title = expression("" * tau * " = 0.01, " * n/p * " = 1%"), 
-       x = "", 
-       y = "Impact Factor") +
-  theme_pubr() +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "red", lwd = 1) +
-  scale_fill_discrete(guide = "none") +
-  theme(plot.title = element_text(hjust = 0.5)) +  # Centrer le titre
-  coord_cartesian(ylim = c(0, 1.8))  # Fixer les limites de l'axe y
-
-
-gplot1.1_Z
-
-
-## Model HMMDAY
-
-LAMBDA<-RESULT$LAMBDA
-colnames(LAMBDA)<-c("HMMDAY_NB","HMMDAY_Hurdle","HMMDAY_ZIP","HMMDAY_NB_Hurdle_ZIP")
-
-data_long <- melt(LAMBDA)
-# Tracer le boxplot avec ggplot2
-
-gplot1 <- ggplot(data_long, aes(x = Var2, y = value, fill = Var2)) + 
-  geom_boxplot(outlier.shape = NA) +
-  labs(title = expression("" * tau * " = 0.01, " * n/p * " = 1%"), 
-       x = "", 
-       y = "Impact Factor") +
-  theme_pubr() +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "red", lwd = 1) +
-  scale_fill_discrete(guide = "none") +
-  theme(plot.title = element_text(hjust = 0.5)) +  # Centrer le titre
-  coord_cartesian(ylim = c(0, 1.8))  # Fixer les limites de l'axe y
-
-
-gplot1
-
-
-save(list = ls(), file ="/Users/fatimaakpo/Downloads//simul_no_data_Scenario_melagane1.1.RData")
-
-AUC<-RESULT$AUC
-data_long <- melt(AUC)
-
-
-# Tracer le boxplot avec ggplot2
-
-gplot2<-ggplot(data_long, aes(x = Var2, y = value, fill = Var2)) + 
-  geom_boxplot(outlier.shape = NA) +
-  labs(title = "", x = "", y = "AUC") +
-  theme_pubr()+
-  scale_fill_discrete(guide = "none") 
-gplot2
-
-
-
-## QQPlot de quelques valeurs.
-
-####qqplot comparison---------------
 
 myqqplot2 = function(pval){
   obs = -log10(sort(pval,decreasing=F))
@@ -855,6 +721,7 @@ myqqplot2 = function(pval){
   
 }
 
+## Volcanoplot function
 
 volcanoplot <- function(x, y, tit,col) {
   df <- data.frame(x = x, y = y)
@@ -874,224 +741,5 @@ volcanoplot <- function(x, y, tit,col) {
           legend.title =element_blank(),
           legend.position ="none")
 }
-
-
-
-## ============================== ##
-##
-##
-##
-##. DESEQUILIBRE
-
-
-
-n_samples<-30  # taille d'échantillon
-n_taxa<-3000 # nombre de taxa
-n_signif<-30
-beta<-c(rnorm(n_signif,0,1), rep(0,n_taxa-n_signif)) ## n_signif est le nombre de genes significatif
-alpha<-runif(1)
-lambda_estimates=runif(n_taxa,1,10)
-size<-sample(n_samples:(2*n_samples),n_samples)
-mu_nb<-sample(n_taxa,n_taxa)
-sigma<-0.4 
-groups<-sample(c("Non_Planted_OSPW", "ZCarex_OSPW"), size = n_samples,replace = TRUE) 
-
-RESULT<-simulation_NB(B=300, # nombre de simulation,
-                      beta=beta,
-                      alpha=alpha,
-                      n_samples=n_samples, # Number of sample
-                      n_taxa=n_taxa, # Number of taxa
-                      lambda_estimates=lambda_estimates, # parametres de la poisson
-                      size=size, # longeur de l'abondance (dim=n_sample multinomiale et size)
-                      mu_nb=mu_nb, # moyenne de la Poisson qui est celui du Gamma
-                      sigma=sigma, # probabilité de zero dans les données (dimemsion)
-                      groups=groups)
-
-
-
-
-save(list = ls(), file ="/Users/fatimaakpo/Desktop/Simulation-melange/simul_no_data_Desequilibre_Scenario-melange1.1.RData")
-
-
-##--------------------------------------#
-#
-#
-#--------------------------------------#
-load("/Users/fatimaakpo/Downloads/Simulation_Part2/simul_no_data_Desequilibre_Scenario1.1.RData")
-
-LAMBDA<-RESULT$LAMBDA
-data_long <- melt(LAMBDA)
-
-# Tracer le boxplot avec ggplot2
-
-gplot1.1_des <- ggplot(data_long, aes(x = Var2, y = value, fill = Var2)) + 
-  geom_boxplot(outlier.shape = NA) +
-  labs(title = expression("" * tau * " = 0.01, " * n/p * " = 1%"), 
-       x = "", 
-       y = "Impact Factor") +
-  theme_pubr() +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "red", lwd = 1) +
-  scale_fill_discrete(guide = "none") +
-  theme(plot.title = element_text(hjust = 0.5)) +  # Centrer le titre
-  coord_cartesian(ylim = c(0, 1.8))  # Fixer les limites de l'axe y
-
-
-gplot1.1_des
-
-ggsave("/Users/fatimaakpo/Downloads/simul1_nodata_deseq_1.1.pdf",plot=gplot1.1_des,
-       width = 4.2, height = 3.2, units = "in", dpi = 300,bg = "white")
-
-
-
-load("/Users/fatimaakpo/Downloads/Simulation_Part2/simul_no_data_Desequilibre_Scenario1.1.RData")
-
-LAMBDA_X<-RESULT$LAMBDA_X
-data_long <- melt(LAMBDA_X)
-
-# Tracer le boxplot avec ggplot2
-
-gplot1.1_des_edge <- ggplot(data_long, aes(x = Var2, y = value, fill = Var2)) + 
-  geom_boxplot(outlier.shape = NA) +
-  labs(title = expression("" * tau * " = 0.01, " * n/p * " = 1%"), 
-       x = "", 
-       y = "Impact Factor") +
-  theme_pubr() +
-  geom_hline(yintercept = 1, linetype = "dashed", color = "red", lwd = 1) +
-  scale_fill_discrete(guide = "none") +
-  theme(plot.title = element_text(hjust = 0.5)) +  # Centrer le titre
-  coord_cartesian(ylim = c(0, 1.8))  # Fixer les limites de l'axe y
-
-
-gplot1.1_des_edge
-
-##=========================================##
-
-X_NB<-X_NB;
-metaData<-data.frame(groups=groups)
-library(edgeR)
-# Préparation des données
-y <- DGEList(counts = X_NB, group = metaData$groups)
-y <- calcNormFactors(y)
-
-# Définition du design
-groups = metaData$groups
-design <- model.matrix(~ groups)
-
-# Estimation de la dispersion
-y <- estimateDisp(y, design)
-
-# Test de l'expression différentielle
-fit <- glmQLFit(y, design)
-result <- glmQLFTest(fit, coef = 2)
-
-
-## take the FDR
-
-pval<-result$table$PValue
-logFC<-result$table$logFC
-FDR <- p.adjust(pval, method="BH") # Benjamini-Hojberg
-boxplot(FDR,col="skyblue", outline = FALSE)
-median(qchisq(1-pval,1),na.rm = "TRUE")/qchisq(0.5,1)
-
-
-v_edge<-volcanoplot(x=logFC,y=-log10(pval),tit="",col="#FF69B4")
-myqqplot2(pval)
-v_edge
-
-## RMSE
-
-function_RMSE <- function(x) { 
-  sqrt(mean((x - beta)^2,na.rm=TRUE)) 
-}
-
-## Appliquer la fonction RMSE data
-
-
-RMSE<-matrix(0,nrow=n_taxa,ncol = 6)
-colnames(RMSE)<-c("Poisson","NB","Hurdle","ZIP","DM","BM")
-RMSE[,1] <- apply(RESULT$ESTIMATION1, 2, function_RMSE)
-RMSE[,2] <- apply(RESULT$ESTIMATION2, 2, function_RMSE)
-RMSE[,3] <- apply(RESULT$ESTIMATION3, 2, function_RMSE)
-RMSE[,4] <- apply(RESULT$ESTIMATION4, 2, function_RMSE)
-RMSE[,5] <- apply(RESULT$ESTIMATION5, 2, function_RMSE)
-RMSE[,6] <- apply(RESULT$ESTIMATION6, 2, function_RMSE)
-
-## Transformation des variables 
-
-data_long <- melt(RMSE)
-
-## Tracer le boxplot avec ggplot2
-
-gplot_des_1.1_MSE <- ggplot(data_long, aes(x = Var2, y = value, fill = Var2)) + 
-  geom_boxplot(outlier.shape = NA) +
-  labs(title = expression("" * tau * " = 0.01, " * n/p * " = 1%"), 
-       x = "", 
-       y = "RMSE") +
-  theme_pubr() +
-  scale_fill_discrete(guide = "none") +
-  theme(plot.title = element_text(hjust = 0.5))+  # Centrer le titre
-  coord_cartesian(ylim = c(0, 6000))  # Fixer les limites de l'axe y
-
-
-gplot_des_1.1_MSE
-
-
-ggsave("/Users/fatimaakpo/Downloads/RMSE_scenario_des_1.1.pdf",plot=gplot_des_1.1_MSE,
-       width = 4.2, height = 3, units = "in", dpi = 300,bg = "white")
-
-
-## R2 Lasso
-
-#function_R2 <- function(pred) {
-#  ss_res <- sum((beta - pred)^2)  # Somme des carrés des résidus
-#  ss_tot <- sum((beta - mean(beta))^2)  # Somme totale des carrés
-#  R2 <- 1 - (ss_res / ss_tot)
-#  return(R2)
-#}
-## Appliquer la fonction RMSE data
-function_R2<- function(col) cor(beta, col, use = "complete.obs")^2
-
-R2_HMMDAY<-matrix(0,nrow=n_taxa,ncol = 6)
-colnames(R2_HMMDAY)<-c("Poisson","NB","Hurdle","ZIP","DM","BM")
-R2_HMMDAY[,1] <- apply(RESULT$ESTIMATION1, 2, function_R2)
-R2_HMMDAY[,2] <- apply(RESULT$ESTIMATION2, 2, function_R2)
-R2_HMMDAY[,3] <- apply(RESULT$ESTIMATION3, 2, function_R2)
-R2_HMMDAY[,4] <- apply(RESULT$ESTIMATION4, 2, function_R2)
-R2_HMMDAY[,5] <- apply(RESULT$ESTIMATION5, 2, function_R2)
-R2_HMMDAY[,6] <- apply(RESULT$ESTIMATION6, 2, function_R2)
-
-## Transformation des variables 
-
-data_long <- melt(R2_HMMDAY)
-
-## Tracer le boxplot avec ggplot2
-gplot_des_1.1_R2 <- ggplot(data_long, aes(x = Var2, y = value, fill = Var2)) + 
-  geom_boxplot(outlier.shape = NA) +
-  labs(title = expression("" * tau * " = 0.01, " * n/p * " = 1%"), 
-       x = "", 
-       y = "R2") +
-  theme_pubr() +
-  scale_fill_discrete(guide = "none") +
-  theme(plot.title = element_text(hjust = 0.5))+  # Centrer le titre
-  coord_cartesian(ylim = c(0, 0.02))  # Fixer les limites de l'axe y
-
-
-gplot_des_1.1_R2
-
-ggsave("/Users/fatimaakpo/Downloads/R2_scenario_des_1.1.pdf",plot=gplot_des_1.1_R2,
-       width = 4.2, height = 3, units = "in", dpi = 300,bg = "white")
-
-
-
-
-
-
-## load the packages
-
-library(ape) ; library(vegan) ; library(limma) ; library(statmod) ; library(edgeR)
-library(ggplot2) ; library(Rcpp) ; library(devtools) ; library(metaSPARSim)
-library(cowplot) ; library(plyr) ; library(ggpubr) ; library(PRROC) ; library(MCMCpack)
-library(doParallel) ;   library(gamlss.dist)
-
 
 
