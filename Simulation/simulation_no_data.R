@@ -1,11 +1,13 @@
-## load the packages
+## Load the packages
 
 library(ape) ; library(vegan) ; library(limma) ; library("statmod") ; library(edgeR) ; library(ggplot2) ; library(Rcpp) ; 
 library(devtools) ; library(metaSPARSim) ; library(cowplot) ; library(plyr) ; library(ggpubr) ; library(PRROC)
 
-## Create the function of load the data
+## Create the function
+## Cette simule des donnees d'abondance X suivant plusieurs distribution discrète (ZIP, NB, etc.) et fixe des paramètres 
+## Input : 
 
-simulation_NB=function(B, # nombre de simulation,
+simulation_NB=function(B, # nombre de replication,
                        n_samples, # Taille d'échantillon
                        n_taxa, # nombre de metagene
                        lambda_estimates, # parametres de la poisson
