@@ -413,3 +413,37 @@ volcanoplot <- function(x, y, tit,col) {
 ## Using data pour obtenir les résultats
 
 
+## Load the data
+gen_data <- load("/Users/timakpo/Downloads/Data1_Paper2.RData")
+
+groups<-data$groups
+GENOM<-data$GENOM
+
+num_zeros <- apply(GENOM == 0, 2, sum)
+
+z=(num_zeros)*100/ncol(GENOM)    # proportion de chaque cas
+
+rm(data)
+ind<-which(z==0)
+gen_data<-GENOM[,ind]
+gen_data<-t(gen_data)
+
+
+
+
+## Distribution binomiale negative
+
+# Charger les donnees deja disponibel
+data <- as.matrix(t(gen_data))  # Assurez-vous que vos données sont sous forme de matrice
+
+# Estimation des paramètres pour la distribution de Poisson
+lambda_estimates <- colMeans(data)  # Moyenne pour chaque taxon
+
+# Estimation des paramètres pour la distribution binomiale négative
+mu_estimates <- colMeans(data)  # Moyenne pour chaque taxon
+var_estimates <- apply(data, 2, var)  # Variance pour chaque taxon
+
+# Calculer le paramètre de dispersion pour la binomiale négative
+size_estimates <- mu_estimates^2 / (var_estimates - mu_estimates)
+size_estimates[size_estimates < 0] <- NA  # Éviter les valeurs négatives
+
