@@ -1,5 +1,4 @@
 ## Load the packages
 
-library(VennDiagram) ; library(ggvenn) ; library(cowplot) ; library(plyr) ; library(ggpubr) ; library(ggplot2) ;
-library(limma) ; library(tidyr) ; library(vroom) ;  library(forcats)
-
+pacman::p_load(ape, BiocParallel, cowplot, devtools, doParallel, dplyr, edgeR, gamlss.dist, ggplot2, ggpubr, ggvenn, limma, MCMCpack, metaSPARSim, plyr, 
+               PRROC, Rcpp, reshape2, statmod, tidyr, variancePartition, vegan, VennDiagram)
