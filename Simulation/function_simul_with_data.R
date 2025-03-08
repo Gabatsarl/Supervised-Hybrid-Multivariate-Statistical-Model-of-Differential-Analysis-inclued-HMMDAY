@@ -47,10 +47,10 @@ Simul_with_data<-function(B, #Nombre de replication
     ## Create a simulate data
     lambda_estimates <- rowMeans(gen_data)  # Moyenne pour chaque taxon
     
-    sim_data_poisson <- generate_poisson_counts(nrow(gen_data), ncol(gen_data),
+    X_Poisson <- generate_poisson_counts(nrow(gen_data), ncol(gen_data),
                                                 lambda_estimates,
                                                 sqrt(lambda_estimates))
-    m.D <- vegdist(t(sim_data_poisson), "manhattan",na.rm = TRUE) ; 
+    m.D <- vegdist(t(X_Poisson), "manhattan",na.rm = TRUE) ; 
     result_GENERAL <- pcoa(m.D )
     
     ## ================================================##
@@ -62,7 +62,7 @@ Simul_with_data<-function(B, #Nombre de replication
     
     for(i in 1:n_taxa){
       
-      data$Xg<-log10(sim_data_poisson[i,]+1)
+      data$Xg<-log10(X_Poisson[i,]+1)
       design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
       
       ## Fitting the model 
