@@ -92,5 +92,3 @@ Pour ce programmes, nous décomposons la matrice **X** en 100 jeux de données a
 
 ## Programme "method.R"
 Pour ce programme, nous mettons en oeuvre le modèle **HMMDAY** sur le jeu de données de **slide.R** 
-
-## Programme 
