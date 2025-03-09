@@ -678,7 +678,7 @@ lambda_estimates=runif(n_taxa,1,10)
 size<-sample(n_samples:(2*n_samples),n_samples)
 mu_nb<-sample(n_taxa,n_taxa)
 sigma<-0.4 
-groups<-sample(rep(c("Non_Planted_OSPW", "ZCarex_OSPW"), each = n_samples/2)) 
+groups<-sample(rep(c("C1", "C2"), each = n_samples/2)) 
 
 RESULT<-simulation_NB(B=300, # nombre de simulation,
                       beta=beta,
