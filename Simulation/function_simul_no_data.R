@@ -22,7 +22,7 @@ simulation_NB<-function(B, # Number of replication,
                         groups){
 
   ## Nombre de gènes significatif(tau=t)
-  n0<-length(which(beta!=0)) # Number of significatif genes pour les gènes
+  n0<-length(which(beta!=0)) # Number of significatif genes
 
   
   ## Matrice des facteurs d'impact (IF)
@@ -46,7 +46,7 @@ simulation_NB<-function(B, # Number of replication,
   for (k in 1:B){
     
    
-    ## Distribution binomiale negative
+    ## Distribution binomiale negative (NB)
     
     generate_nb_counts <- function(n_samples, n_taxa, size, mu) {
       # Générer les comptages pour chaque échantillon et chaque taxon
@@ -59,8 +59,9 @@ simulation_NB<-function(B, # Number of replication,
     }
     size_nb<-runif(n_taxa,0,1)
     mu_nb<-sample(n_taxa,n_taxa)
-    X_NB <- generate_nb_counts(n_taxa, n_samples, 
-                                      size=size_nb, mu=mu_nb) #ligne =taxa, colonne=echantillon
+
+    ## generer la matrix X (abondance selon NB)
+    X_NB <- generate_nb_counts(n_taxa, n_samples, size=size_nb, mu=mu_nb) # gene
     
     
     m.D <- vegdist(t(X_NB), "manhattan") ; 
@@ -88,7 +89,6 @@ simulation_NB<-function(B, # Number of replication,
     
     system.time(
       Three_beta_pval<-foreach( i= 1:n_taxa,.packages=c("limma")) %dopar% {
-        #for(i in 1:n){
         data$Xg<-log10(X_NB[i,]+1)
         design <- model.matrix(~Xg+groups+PCoA1+PCoA2,data)
         
@@ -110,7 +110,7 @@ simulation_NB<-function(B, # Number of replication,
     stopCluster(cl)
     
     
-    ## Integrer les solutions
+    ## Extraire les résultats du calcul parallele précédente
     
     
     for(i in 1:n_taxa){
@@ -159,9 +159,7 @@ simulation_NB<-function(B, # Number of replication,
     ##
     ##===============================##
     
-
-    #d <- DGEList(X_NB, group = metaData$groups)
-    y <- voom(d, design, plot = FALSE)
+    y <- voom(d, design, plot = FALSE) # "d" de edge
     limma_fit <- lmFit(y, design)
     tmp <- contrasts.fit(limma_fit, coef = 2) 
     out_ebayes <- eBayes(tmp)
