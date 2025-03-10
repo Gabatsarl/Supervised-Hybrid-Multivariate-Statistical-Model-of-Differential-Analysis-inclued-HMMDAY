@@ -26,6 +26,11 @@ simulation_NB<-function(B, # Number of replication,
 
   
   ## Matrice des facteurs d'impact (IF)
+  ## LAMBDA contient les IF de HMMDAY, 
+  ## LAMBDA_X contient les IF de Edge
+  ## LAMBDA_Y contient les IF de Limma
+  ## LAMBDA_Z contient les IF de Dream
+  
   LAMBDA<-  LAMBDA_X<-LAMBDA_Y<-LAMBDA_Z<-matrix(0,nrow=B,ncol = 4)
 
   colnames(LAMBDA)<-colnames(AUC)<-c("NB","Hurdle","ZIP","NB_Hurdle_ZIP")
@@ -63,7 +68,8 @@ simulation_NB<-function(B, # Number of replication,
     ## generer la matrix X (abondance selon NB)
     X_NB <- generate_nb_counts(n_taxa, n_samples, size=size_nb, mu=mu_nb) # gene
     
-    
+
+    ## PCoA sur X
     m.D <- vegdist(t(X_NB), "manhattan") ; 
     result_GENERAL <- pcoa(m.D )
     
@@ -82,7 +88,7 @@ simulation_NB<-function(B, # Number of replication,
     data$Y<-as.numeric(Y)
     
     
-    ## Design of the model
+    ## Model HMMDAY
     
     cl <- detectCores() %>% -1 %>% makeCluster ### N'utiliser pas tous les coeurs (-1)
     registerDoParallel(cl)
@@ -108,10 +114,8 @@ simulation_NB<-function(B, # Number of replication,
     
     ## Arreter le cluster de calcul
     stopCluster(cl)
-    
-    
+        
     ## Extraire les résultats du calcul parallele précédente
-    
     
     for(i in 1:n_taxa){
       if(is.null(Three_beta_pval[[i]])==TRUE){
@@ -155,7 +159,7 @@ simulation_NB<-function(B, # Number of replication,
     LOGFC_NB_EDGE[,k]<-result$table$logFC
     
     
-    ## Limma application
+    ## Limma application ============##
     ##
     ##===============================##
     
