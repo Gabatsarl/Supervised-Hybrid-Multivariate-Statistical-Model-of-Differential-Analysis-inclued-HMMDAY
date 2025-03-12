@@ -1,7 +1,7 @@
 ##----------------------- Load the packages -------------------------------------------##
 
-library(elasticnet) ; library(kernlab) ; library(xgboost) ; library(glmnet) ; library(RSNNS) ; library(MASS) ; library(dplyr) ; require(haven) ; require(ggplot2) ; 
-require(lattice) ; require(caret) ; library(gbm) ; library(e1071) ;  library(randomForest) ; library(xgboost) ; library(catboost)
+pacman::p_load(ape, BiocParallel, caret, cowplot, devtools, doParallel, dplyr, edgeR, gamlss.dist, ggplot2, ggpubr, ggvenn, haven, lattice, limma, 
+               MASS, MCMCpack, metaSPARSim, plyr, PRROC, Rcpp, reshape2, statmod, tidyr, variancePartition, vegan, VennDiagram)
 
 ###-------------- Recharger le fichier des resultats precedents ------------------------##
 
